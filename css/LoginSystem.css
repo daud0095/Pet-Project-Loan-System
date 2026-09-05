@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #03045E 0%, #0077B6 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Inter, sans-serif;
+
+}
+
+.LoginCard {
+    display: flex;
+    width: 900px;
+    max-width: 90%;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.LeftSide {
+    flex: 1;
+    background: linear-gradient(160deg, #03045E 0%, #0077B6 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 40px;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+
+.LeftSide h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+
+}
+
+
+.Logintext {
+    color: #CAF0F8;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.RightSide {
+    flex: 1;
+    background-color: #FFFFFF;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+}
+
+
+
+.RightSide h2 {
+    text-align: center;
+    color: #03045E;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.choice {
+    display: flex;
+    background-color: #CAF0F8;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.choice a {
+    flex: 1;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    color: #03045E;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.choice a.active {
+    color: #0077B6;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    color: #000000;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+input[type="email"],
+input[type="password"] {
+    background-color: #CAF0F8;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+input::placeholder {
+    color: #7a8a99;
+    font-weight: bold;
+}
+
+.forgot {
+    color: #90CAF9;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #0077B6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #03045E;
+}
+
+
