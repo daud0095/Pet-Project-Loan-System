@@ -3,25 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <title>Produktside</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../public/css/produktside.css">
 </head>
 <body>
     <div class="produktside">
+        <!--Venstre side (Menu)-->
         <div class="sidebar">
-            <div>S</div>
-            <header>
-                Låne Skole System
-            </header>
-            <div>
+            <div class="titel">
+                <div class="smbl"><img src="../public/images/låneudstyr.svg"></div>
+                <header>
+                    Lånesystem for skoler
+                </header>
+            </div>
+            <div class="menu">
+                <div class="submenu">
+                    <div class="smbl"><img src="../public/images/udstyr.svg"></div>
+                    <h2><a href="produktside.html">Udstyr</a></h2>
+                </div>
+                <div class="submenu">
+                    <div class="smbl"><img src="../public/images/minelan.svg"></div>
+                    <h2><a href="#">Mine lån</a></h2>
+                </div>
+            </div>
+            <div class="logud">
+                <div class="smbl"><img class="logudsmbl" src="../public/images/logud.svg"></div>
+                <footer>
+                    <a href="Login%20function.html">Log ud</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- Udstyr skal vises -->
+        <div class="produktpage">
+            <div class="search">
+                <h3>Udstry</h3>
+                <p  class="src-icon"><img src="../public/images/magnifyingglass.svg"></p>
+                <input type="search" id="srch" name="search" placeholder="Søge efter udstry...">
+                <p><a href="#"><img class="srchsmbl" src="../public/images/search.svg"></a></p>
+            </div>
+
+            <div class="udstyrliste">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Billede</th>
+                        <th>Navn</th>
+                        <th>Beskrivelse</th>
+                        <th>Stk.</th>
+                        <th>Status</th>
+                        <th>Afleveringsdato</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/computer.png"></td>
+                        <td>Computer</td>
+                        <td>16 RAM</td>
+                        <td>8</td>
+                        <td class="status">Ledigt</td>
+                        <td>-</td>
+                        <td>
+                            <button type="button" id="loan1" name="loan1" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/kamera.png"></td>
+                        <td>Kamera</td>
+                        <td>Canon</td>
+                        <td>0</td>
+                        <td class="status">Udlånt</td>
+                        <td>05.10.2026</td>
+                        <td>
+                            <button type="button" id="loan2" name="loan2" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/mikrofon.png"></td>
+                        <td>Mikrofon</td>
+                        <td>USB mikrofon</td>
+                        <td>20</td>
+                        <td class="status">Ledigt</td>
+                        <td>-</td>
+                        <td>
+                            <button type="button" id="loan3" name="loan3" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/projektor.png"></td>
+                        <td>Projektor</td>
+                        <td>Epson</td>
+                        <td>0</td>
+                        <td class="status">Udlånt</td>
+                        <td>10.10.2026</td>
+                        <td>
+                            <button type="button" id="loan4" name="loan4" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/høretelefon.png"></td>
+                        <td>Høretelefoner</td>
+                        <td>Sony</td>
+                        <td>0</td>
+                        <td class="status">Udlånt</td>
+                        <td>10.10.2026</td>
+                        <td>
+                            <button type="button" id="loan5" name="loan5" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="billede" src="../public/images/tablet.png"></td>
+                        <td>Tablet</td>
+                        <td>Ipad</td>
+                        <td>50</td>
+                        <td class="status">Ledigt</td>
+                        <td>-</td>
+                        <td>
+                            <button type="button" id="loan6" name="loan6" value="Lån">
+                                Lån
+                            </button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
 
             </div>
-            <footer>
-                Log ud
-            </footer>
-        </div>
-        <div>
+
+
 
         </div>
     </div>
+
+    <script src="../public/js/produktside.js" defer></script>
 </body>
 </html>

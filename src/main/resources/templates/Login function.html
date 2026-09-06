@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/LoginSystem.css">
+    <link rel="stylesheet" href="../public/css/LoginSystem.css">
+
+
 </head>
 <body>
 <div class="LoginCard">
@@ -20,17 +22,17 @@
     <h2>Log ind</h2>
     <div class="userChoice">
         <nav class="choice">
-            <a href="pet">Elev</a>
-            <a href="pet">Admin</a>
+            <a id="elevlink" href="#">Elev</a>
+            <a id="adminlink" href="#">Admin</a>
         </nav>
     </div>
-    <form action="/action_page.php">
+    <form action="produktside.html">
         <label for="skolemail">Skolemail:</label><br>
-        <input type="text" id="skolemail" name="skolemail" placeholder="navn@skolemail.dk"><br>
+        <input type="email" id="skolemail" name="skolemail" placeholder="navn@skolemail.dk"><br>
         <label for="password">Password:</label><br>
-        <input type="text" id="password" name="password" placeholder="********"><br><br>
+        <input type="password" id="password" name="password" placeholder="********"><br><br>
         <input class="btn" type="submit" value="Submit"><br>
-        <a href="ForgotPassword.html">Glemt adgangskode?</a>
+        <a class="forgot" href="ForgotPassword.html">Glemt adgangskode?</a>
     </form>
 
 
@@ -38,7 +40,7 @@
 
 </div>
 
-
+<script src="../public/js/loginsystem.js" defer></script>
 </body>
 </html>
 

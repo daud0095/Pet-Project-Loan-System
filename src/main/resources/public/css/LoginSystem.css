@@ -16,6 +16,7 @@ body {
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+
 }
 
 .LeftSide {
@@ -69,6 +70,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 30px;
+
 }
 
 .choice a {
@@ -94,17 +96,15 @@ form label {
     color: #000000;
     font-weight: bold;
     font-size: 18px;
-    margin-bottom: 8px;
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"]  {
     background-color: #CAF0F8;
     border: none;
     border-radius: 10px;
     padding: 14px;
     font-size: 16px;
-    margin-bottom: 20px;
     color: #333;
 }
 
@@ -118,7 +118,11 @@ input::placeholder {
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
-    margin-bottom: 20px;
+}
+
+.forgot:hover {
+    color: red;
+    text-decoration: underline;
 }
 
 .btn {
@@ -130,10 +134,33 @@ input::placeholder {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    font-size: 25px;
 }
 
 .btn:hover {
     background-color: #03045E;
+}
+
+#skolemail, #password {
+    width: 350px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#elevlink{
+    background-color: #7a8a9950;
+    color: red;
+}
+
+#elevlink, #adminlink {
+    font-size: 20px;
+}
+
+input:focus {
+    background-color: white;
+    box-shadow:0 0 10px blue;
+
 }
 
 /* CSS */

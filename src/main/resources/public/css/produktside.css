@@ -1,0 +1,206 @@
+
+body{
+    margin: 0;
+    background: linear-gradient(135deg, #03045E 0%, #0077B6 100%);
+    display: flex;
+    justify-content: center;
+    min-height: 700px;
+    align-items: center;
+
+}
+
+.sidebar{
+    background: linear-gradient(160deg, #03045E 0%, #0077B6 100%);
+    width: 275px;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    padding: 25px;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+}
+
+.produktside{
+    border: 1px solid white;
+    display: flex;
+    width: 900px;
+    height: 600px;
+    border-radius: 15px;
+    color: white;
+}
+
+.titel {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.smbl {
+    background-color: white;
+    height: 25px;
+
+}
+
+header {
+    font-family: Tuffy;
+    font-size: 36px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.submenu {
+    margin-left: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.logud {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 230px;
+    height: 80px;
+    font-size: 36px;
+    font-weight: bold;
+    border-top: 1px solid white;
+    margin-left:  -25px;
+    padding: 9px 0 0 45px;
+
+    position: absolute;
+    top: 500px;
+
+}
+
+.logudsmbl {
+    background-color: white;
+    margin-bottom: 15px;
+}
+
+
+
+.produktpage {
+    background-color: white;
+    width: 800px;
+    height: 575px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 25px 15px 0 15px;
+    color: black;
+
+}
+
+.search {
+    display: flex;
+    gap: 15px;
+    font-size: 15px;
+    font-family: Inter,sans-serif;
+    margin-bottom: 15px;
+    align-items: center;
+    position: relative;
+
+}
+
+
+#srch {
+    width: 520px;
+    height: 30px;
+    background-color: #CAB9B950;
+    border: 1px solid #999;
+    padding-left: 40px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.src-icon {
+    background-color: transparent;
+    position: absolute;
+    left: 79px;
+
+}
+
+.srchsmbl{
+    color: #52698E;
+}
+
+.head {
+    display: flex;
+    gap: 35px;
+    padding-left: 90px;
+    background-color: #c9f4fd;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-weight: bold;
+    color: #1A1A1A;
+    font-family: Inter,sans-serif;
+
+}
+
+.liste{
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding-left: 8px;
+}
+
+.udstyrliste {
+    background-color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    overflow: hidden;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+
+.udstyrliste table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Inter, sans-serif;
+}
+
+.udstyrliste th {
+    background-color: lightgray;
+    padding: 12px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.udstyrliste td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+}
+
+.udstyrliste button {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
+    color: white;
+}
+
+
+.status {
+    font-weight: bold;
+    background-color: #DAFFD6;
+}
+
+.billede{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
