@@ -158,8 +158,6 @@ header {
     overflow: hidden;
 }
 
-
-
 a{
     text-decoration: none;
     color: white;
@@ -192,9 +190,7 @@ a{
     cursor: pointer;
     background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
     color: white;
-    width: 75px;
 }
-
 
 
 .status {
@@ -208,7 +204,6 @@ a{
     object-fit: contain;
 }
 
-/* 10-09-2026*/
 .chckbox {
     display: flex;
     justify-content: center;
@@ -226,12 +221,5 @@ a{
     width: 30px;
     height: 25px;
     font-size: 15px;
-}
-
-.user {
-    font-size: 10px;
-    color: navy;
-    margin-bottom: 15px;
-    margin-left: 490px;
 }
 

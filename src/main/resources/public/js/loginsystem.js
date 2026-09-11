@@ -1,11 +1,7 @@
-
-
-// Admin og Elev på login side
 const elev = document.querySelector("#elevlink");
 const admin = document.querySelector("#adminlink");
 const skolemail = document.getElementsByTagName("label");
-
-console.log(skolemail)
+console.log(skolemail);
 
 elev.addEventListener("click", (e) => {
     elev.style.background = "#7a8a9950";
@@ -24,5 +20,4 @@ admin.addEventListener("click", (e) => {
     e.preventDefault();
     skolemail[0].innerHTML = "Admin:";
 });
-
 
