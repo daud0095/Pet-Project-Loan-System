@@ -204,3 +204,22 @@ a{
     object-fit: contain;
 }
 
+.chckbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 175px;
+    height: 75px;
+    font-size: 15px;
+    margin-left: 450px;
+    font-weight: bold;
+
+}
+
+.chckbox select {
+    width: 30px;
+    height: 25px;
+    font-size: 15px;
+}
+
