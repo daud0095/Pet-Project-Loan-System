@@ -190,6 +190,7 @@ a{
     cursor: pointer;
     background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
     color: white;
+    width: 75px;
 }
 
 
