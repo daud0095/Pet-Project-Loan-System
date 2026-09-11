@@ -5,6 +5,7 @@
     <title>Produktside</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../public/css/produktside.css">
+    <link rel="stylesheet" href="../public/css/loan.css">
 </head>
 <body>
     <div class="produktside">
@@ -36,8 +37,9 @@
 
         <!-- Udstyr skal vises -->
         <div class="produktpage">
+            <div class="user"></div>
             <div class="search">
-                <h3>Udstry</h3>
+                <h3>Udstyr</h3>
                 <p  class="src-icon"><img src="../public/images/magnifyingglass.svg"></p>
                 <input type="search" id="srch" name="search" placeholder="Søge efter udstry...">
                 <p><a href="#"><img class="srchsmbl" src="../public/images/search.svg"></a></p>
@@ -60,7 +62,7 @@
 
                     <tbody>
 
-                    <tr>
+                    <!--<tr>
                         <td><img class="billede" src="../public/images/computer.png"></td>
                         <td>Computer</td>
                         <td>16 RAM</td>
@@ -142,18 +144,29 @@
                                 Lån
                             </button>
                         </td>
-                    </tr>
+                    </tr>-->
 
                     </tbody>
                 </table>
 
             </div>
 
+           <!-- 10-09-2026-->
+            <div class="chckbox">
+                <p>Sidetal :</p>
+                <select name="pagenumber">
 
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+
+                </select>
+            </div>
 
         </div>
     </div>
 
     <script src="../public/js/produktside.js" defer></script>
+
 </body>
 </html>
