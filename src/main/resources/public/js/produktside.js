@@ -16,8 +16,7 @@
 
 
    const sideNumber = document.querySelector("select");
-
-
+   const srch = document.querySelector("#srch");
 
     loadudstyr();
 
@@ -27,12 +26,15 @@
         const res = await fetch("data/udstyr.json");
         const data = await res.json();
 
+        // 4.process søge efter function
+        const newData = searchUdstyr(data);
+
         // 2.process ==> Sidetal opdatering.
         // Hvis sidetællingen er fuld, skal du ikke genberegne; ellers skal du beregne.
         // Fordi kommandoen `load udstyr` konstant kaldes af funktioner, forårsager dette et problem.
 
         if (sideNumber.options.length === 0) {
-            findSidetallet(data);
+            findSidetallet(newData);
         }
 
         // 3.process
@@ -40,7 +42,7 @@
         const pageNumber = sideNumber.value;
 
         // så vi kan beregne hvilken 6 udstyr der vil vises baseret på sidetallet.
-        render(data, pageNumber);
+        render(newData, pageNumber);
 
     }
 
@@ -136,7 +138,6 @@ sideNumber.addEventListener("change", () => {
     tBody.replaceChildren();
     loadudstyr();
 
-
 })
 
 // 2.process ==> Rulleliste skal være dynamiske
@@ -161,3 +162,39 @@ function findSidetallet(data) {
         sideNumber.appendChild(option);
     }
 }
+
+// ********************************************
+// 4.process ==> Søge efter funktion
+srch.addEventListener("change", () => {
+    // Først nulstilles skærmen
+    const tableBody = document.querySelector("tbody");
+    tableBody.replaceChildren();
+    console.log(srch.value);
+
+    // Der er et problem fordi sidetal opdateres ikke
+    // Hvis sidetal er tom, kører function for sidetal
+    // Derfor vi nulstiller sidetal
+    sideNumber.replaceChildren();
+
+    // Efter nulstillingen kaldes funktionen for at hente nye data
+    loadudstyr();
+
+});
+
+function searchUdstyr(data){
+
+    const search = srch.value;
+
+    // Hvis man skriver noget, fungerer søgefeltet.
+    // "filter" udfører en handling på hvert dataelement.
+    // For hvert dataelement i datasættet sammenlignede vi datanavnene i JSON-filen.
+    if (search.length > 0) {
+        return data.filter(item => item.Navn.toLowerCase().startsWith(search.toLowerCase()));
+    }
+
+    // Hvis søgefeltet er tomt, returneres dataene direkte.
+    return data;
+}
+
+// ********************************************
+
