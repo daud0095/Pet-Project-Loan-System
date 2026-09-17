@@ -23,7 +23,7 @@
     async function loadudstyr() {
 
         // Vi henter dataene i JSON-format. (fast struktur)
-        const res = await fetch("data/udstyr.json");
+        const res = await fetch("/data/udstyr.json");
         const data = await res.json();
 
         // 4.process søge efter function
@@ -66,7 +66,7 @@
             linjeIndholdBillede.appendChild(image);
 
             image.className="billede"
-            image.src = "../public/images/" + data[i].Billede;
+            image.src = "/images/" + data[i].Billede;
             tableLine.appendChild(linjeIndholdBillede);
 
             // For navn
