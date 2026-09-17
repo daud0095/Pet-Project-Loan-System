@@ -18,7 +18,7 @@ public class UserServices {
 
     public User getUser(String username){
         for(User user : users){
-            if(user.getUsername().equals(username)){
+            if(user.getUsername().toUpperCase().equals(username.toUpperCase())){
                 return user;
             }
         }
