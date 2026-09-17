@@ -109,7 +109,11 @@
             linjeIndholdKnap.className = "btn";
             linjeIndholdKnap.type = "button";
             linjeIndholdKnap.id = "loan" + data[i].id;
-            linjeIndholdKnap.name = "loan" + data[i].id;
+
+            // vi kan tilgå router på den måde
+            // når man trykker på lån-knap, fungerer function
+            linjeIndholdKnap.onclick = function () { window.location.href="/loan?id=" + data[i].id } ;
+
             linjeIndholdKnap.value = "Lån";
             linjeIndholdKnap.textContent = " Lån";
             linjeIndholdButton.appendChild(linjeIndholdKnap);

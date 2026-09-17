@@ -31,7 +31,7 @@
         <input type="email" id="skolemail" name="skolemail" placeholder="navn@skolemail.dk"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" placeholder="********"><br><br>
-        <p th:text="${msg}"></p>
+        <p style="color:red;" th:text="${msg}"></p>
         <input class="btn" type="submit" value="Submit"><br>
         <a class="forgot" href="/ForgotPassword">Glemt adgangskode?</a>
     </form>
