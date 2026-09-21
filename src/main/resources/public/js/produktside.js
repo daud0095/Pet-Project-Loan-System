@@ -26,7 +26,7 @@
         // Vi ændrer kun path her fordi javascript fanger routes "/api/products"
         // Denne routes returnerer alle produkter
         // restende af kode er samme.
-        const res = await fetch("/api/products");
+        const res = await fetch("/products");
         // console.log("STATUS:", res.status);
 
         const data = await res.json();

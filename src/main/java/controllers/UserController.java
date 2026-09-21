@@ -13,8 +13,7 @@ public class UserController {
 
     static UserService userService = new UserService();
 
-    // vi opretter først ProduktService her for at hente alle produkter
-    static ProductService productService = new ProductService();
+
 
     public static void setRoutes(JavalinConfig config){
 
@@ -24,13 +23,6 @@ public class UserController {
         config.routes.get("/myloan", ctx -> ctx.redirect("/myloan.html"));
         config.routes.get("/produktside", ctx -> ctx.redirect("/produktside.html") );
 
-
-        // for at sende alle udstyr til javascript
-        // /api/products  ==>  javascript fanger denne url for at hente alle produkter
-        // Denne routes sender alle produkter videre til javascript ved hjælpe af  "productService.getProducts()"
-        // ProduktServices konstruktør har "ProductFactory.createProducts()"
-        // ctx.json omdanner dataerne til json
-        config.routes.get("/api/products", ctx -> { ctx.json(productService.getProducts());  });
 
         // Denne router kalder lån-knap
         config.routes.get("/loan", ctx -> loan(ctx));  // for lån-knap
