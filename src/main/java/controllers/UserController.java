@@ -5,9 +5,6 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 import services.UserServices;
 
-import java.util.Map;
-
-
 public class UserController {
 
     static UserServices userServices = new UserServices();
