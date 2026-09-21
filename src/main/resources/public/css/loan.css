@@ -1,0 +1,94 @@
+.loantitel {
+    font-size: 35px;
+    margin-left: 15px;
+
+}
+
+.loanside {
+    margin-top: -15px;
+}
+
+.loanudstyrInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loanudstyr {
+    background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
+    color: white;
+    margin-left: 15px;
+    width: 230px;
+    height: 150px;
+    align-items: center;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.loandetaljeret {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+    margin-bottom: 20px;
+
+}
+
+.loanudstyr p {
+    font-size: 20px;
+
+}
+
+.loandetaljeret p {
+    color: navy;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.loandetaljeret select,input {
+    height: 25px;
+    border-radius: 5px;
+}
+
+.loandetaljeret input[type='textarea'] {
+    height: 50px;
+    border-radius: 5px;
+}
+
+.loanbtn {
+    display: flex;
+    gap: 10px;
+    width: 200px;
+    height: 35px;
+    background-color: white;
+    margin-left: 370px;
+}
+
+.approvalBtn {
+    cursor: pointer;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.approvalBtn:hover {
+    background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
+    color: white;
+}
+
+.cancelBtn {
+    cursor: pointer;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.cancelBtn:hover {
+    background: linear-gradient(25deg, #03045E 0%, #f80120 55%);
+    color: white;
+}
+
+#billede {
+    margin-right: 50px;
+}
+

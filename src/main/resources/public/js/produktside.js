@@ -22,12 +22,20 @@
 
     async function loadudstyr() {
 
-        // Vi henter dataene i JSON-format. (fast struktur)
-        const res = await fetch("/data/udstyr.json");
+        // Vi henter dataene fra javalin. (fast struktur)
+        // Vi ændrer kun path her fordi javascript fanger routes "/api/products"
+        // Denne routes returnerer alle produkter
+        // restende af kode er samme.
+        const res = await fetch("/api/products");
+        // console.log("STATUS:", res.status);
+
         const data = await res.json();
+        // console.log("DATA:", data);
+        // console.log("DATA LENGTH:", data.length);
 
         // 4.process søge efter function
         const newData = searchUdstyr(data);
+        // console.log("NEWDATA:", newData);
 
         // 2.process ==> Sidetal opdatering.
         // Hvis sidetællingen er fuld, skal du ikke genberegne; ellers skal du beregne.
@@ -40,6 +48,7 @@
         // 3.process
         // Den finder det valgte sidetal og sender det til "render"-function.
         const pageNumber = sideNumber.value;
+        // console.log("PAGE:", pageNumber);
 
         // så vi kan beregne hvilken 6 udstyr der vil vises baseret på sidetallet.
         render(newData, pageNumber);
@@ -66,31 +75,31 @@
             linjeIndholdBillede.appendChild(image);
 
             image.className="billede"
-            image.src = "/images/" + data[i].Billede;
+            image.src = "/images/" + data[i].picturePath;
             tableLine.appendChild(linjeIndholdBillede);
 
             // For navn
             const linjeIndholdComputer = document.createElement("td");
-            linjeIndholdComputer.textContent = data[i].Navn;
+            linjeIndholdComputer.textContent = data[i].name;
             tableLine.appendChild(linjeIndholdComputer);
 
             // For Beskrivelse
             const linjeIndholdBeskrivelse = document.createElement("td");
-            linjeIndholdBeskrivelse.textContent = data[i].Beskrivelse;
+            linjeIndholdBeskrivelse.textContent = data[i].description;
             tableLine.appendChild(linjeIndholdBeskrivelse);
 
             // For Stk
             const linjeIndholdStk = document.createElement("td");
-            linjeIndholdStk.textContent = data[i].Stk;
+            linjeIndholdStk.textContent = data[i].stock;
             tableLine.appendChild(linjeIndholdStk);
 
             // For Status
             const linjeIndholdStatus = document.createElement("td");
             linjeIndholdStatus.className = "status";
-            linjeIndholdStatus.textContent = data[i].Status;
+            linjeIndholdStatus.textContent = data[i].status;
 
             // Hvis status er "udlånt", ændres baggrundsfarven.
-            if (data[i].Status === "Udlånt") {
+            if (data[i].status === "Udlånt") {
                 linjeIndholdStatus.style.background = "red";
             } else {
                 linjeIndholdStatus.style.background = "#DAFFD6";
@@ -100,7 +109,7 @@
 
             // For Afleveringsdato
             const linjeIndholdAfleveringsdato = document.createElement("td");
-            linjeIndholdAfleveringsdato.textContent = data[i].Afleveringsdato;
+            linjeIndholdAfleveringsdato.textContent = data[i].deliveryDate;
             tableLine.appendChild(linjeIndholdAfleveringsdato);
 
 
@@ -193,7 +202,7 @@ function searchUdstyr(data){
     // "filter" udfører en handling på hvert dataelement.
     // For hvert dataelement i datasættet sammenlignede vi datanavnene i JSON-filen.
     if (search.length > 0) {
-        return data.filter(item => item.Navn.toLowerCase().startsWith(search.toLowerCase()));
+        return data.filter(item => item.name.toLowerCase().startsWith(search.toLowerCase()));
     }
 
     // Hvis søgefeltet er tomt, returneres dataene direkte.
