@@ -1,3 +1,4 @@
+import controllers.ProductController;
 import controllers.UserController;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -10,6 +11,7 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf());
 
             UserController.setRoutes(config);
+            ProductController.setRoutes(config);
 
         }).start(7070);
 
