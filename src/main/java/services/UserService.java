@@ -5,10 +5,10 @@ import factories.UserFactory;
 
 import java.util.List;
 
-public class UserServices {
+public class UserService {
     private List<User> users;
 
-    public UserServices(){
+    public UserService(){
         this.users = UserFactory.createUsers();
     }
 

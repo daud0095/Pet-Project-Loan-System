@@ -3,11 +3,11 @@ package controllers;
 import entities.User;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
-import services.UserServices;
+import services.UserService;
 
 public class UserController {
 
-    static UserServices userServices = new UserServices();
+    static UserService userService = new UserService();
 
     public static void setRoutes(JavalinConfig config){
 
@@ -27,7 +27,7 @@ public class UserController {
         String schoolMail = ctx.formParam("skolemail");
         String password = ctx.formParam("password");
 
-        User user = userServices.login(schoolMail,password);
+        User user = userService.login(schoolMail,password);
 
         if (user != null){
             ctx.redirect("/produktside.html");
