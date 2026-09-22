@@ -23,7 +23,7 @@
     async function loadudstyr() {
 
         // Vi henter dataene fra javalin. (fast struktur)
-        // Vi ændrer kun path her fordi javascript fanger routes "/api/products"
+        // Vi ændrer kun path her fordi javascript fanger routes "/products"
         // Denne routes returnerer alle produkter
         // restende af kode er samme.
         const res = await fetch("/products");
