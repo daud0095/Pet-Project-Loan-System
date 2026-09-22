@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lån</title>
+    <link rel="stylesheet" href="/css/produktside.css">
+    <link rel="stylesheet" href="/css/loan.css">
+</head>
+<body>
+<div class="produktside">
+    <!--Venstre side (Menu)-->
+    <div class="sidebar">
+        <div class="titel">
+            <div class="smbl"><img src="/images/loanudstyr.svg"></div>
+            <header>
+                Lånesystem for skoler
+            </header>
+        </div>
+        <div class="menu">
+            <div class="submenu">
+                <div class="smbl"><img src="/images/udstyr.svg"></div>
+                <h2><a href="/produktside">Udstyr</a></h2>
+            </div>
+            <div class="submenu">
+                <div class="smbl"><img src="/images/minelan.svg"></div>
+                <h2><a href="/myloan">Mine lån</a></h2>
+            </div>
+        </div>
+        <div class="logud">
+            <div class="smbl"><img class="logudsmbl" src="/images/logud.svg"></div>
+            <footer>
+                <a href="Login%20function.html">Log ud</a>
+            </footer>
+        </div>
+    </div>
+
+
+    <!-- lån-knap  -->
+    <div class="produktpage">
+        <div class="loanside">
+            <h2 class="loantitel">Lån Udstyr</h2>
+            <div class="loanudstyrInfo">
+                <div class="loanudstyr">
+                    <p>Udstyr navn : navn</p>
+                    <p>Beskrivelse : beskrivelse</p>
+                    <p>Stk : stk</p>
+                </div>
+                <div>
+                    <img id="billede" src="/images/projektor.png"/>
+                </div>
+            </div>
+            <div class="loandetaljeret">
+                <p>Låner</p>
+                <select name="loan">
+                    <option>mail</option>
+                </select>
+                <p>Afleverings Dato</p>
+                <input type="date" min="2026-09-19" max="2028-01-01">
+                <p>Bæmerkning(Valgfri)</p>
+                <input type="textarea" placeholder = "Du kan skrive her noget...">
+            </div>
+
+            <div class="loanbtn">
+                <button type="button" value="Annulere" class="cancelBtn"  onclick="window.location.href='/produktside'">Annulere</button>
+                <button type="button" value="Bekræfte lån" class="approvalBtn">Bekræfte lån</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
