@@ -38,53 +38,54 @@
     <!-- lån-knap  -->
     <div class="produktpage">
         <div class="loanside">
-            <h2 class="loantitel">Lån Udstyr</h2>
-            <div class="loanudstyrInfo">
-                <div class="loanudstyr">
-                    <p>id : <span th:text="${product.id}"></span></p>
-                    <p>Udstyr navn : <span th:text="${product.name}"></span></p>
-                    <p>Beskrivelse : <span th:text="${product.description}"></span></p>
-                    <p>Stk : <span th:text="${product.stock}"></span></p>
-                </div>
-                <div>
-                    <img id="billede" th:src="@{/images/{fil}(fil=${product.picturePath})}"/>
-                </div>
-            </div>
-            <div class="loandetaljeret">
-                <p>Låner</p>
-                <select name="loan">
-
-                    <div th:unless="${session.user.isAdmin}">
-
-
-                        <option th:text="${session.user.username}"></option>
-
+            <form action="/confirm" method="get">
+                <h2 class="loantitel">Lån Udstyr</h2>
+                <div class="loanudstyrInfo">
+                    <div class="loanudstyr">
+                        <p>id : <span th:text="${product.id}"></span></p>
+                        <p>Udstyr navn : <span th:text="${product.name}"></span></p>
+                        <p>Beskrivelse : <span th:text="${product.description}"></span></p>
+                        <p>Stk : <span th:text="${product.stock}"></span></p>
                     </div>
+                    <div>
+                        <img id="billede" th:src="@{/images/{fil}(fil=${product.picturePath})}"/>
+                    </div>
+                </div>
+                <div class="loandetaljeret">
+                    <p>Låner</p>
+                    <select name="loan">
 
-                    <div th:if="${session.user.isAdmin}">
+                        <div th:unless="${session.user.isAdmin}">
 
-                        <div th:each="user:${users}">
-                            <option th:text="${user.username}"></option>
+
+                            <option th:text="${session.user.username}"></option>
+
                         </div>
 
-                    </div>
+                        <div th:if="${session.user.isAdmin}">
 
-                </select>
-                <p>Afleverings Dato</p>
-                <input name="afleveringsdato" type="date" th:min="${date}" max="2028-01-01" required>
-                <p>Bæmerkning(Valgfri)</p>
-                <input type="textarea" placeholder = "Du kan skrive her noget...">
-            </div>
+                            <div th:each="user:${users}">
+                                <option th:text="${user.username}"></option>
+                            </div>
 
-            <div class="loanbtn">
-                <button type="button" value="Annulere" class="cancelBtn"  onclick="window.location.href='/produktside'">Annulere</button>
-                <form action="/confirm" method="get">
+                        </div>
+
+                    </select>
+                    <p>Afleverings Dato</p>
+                    <input name="afleveringsdato" type="date" th:min="${date}" max="2028-01-01" required>
+                    <p>Bæmerkning(Valgfri)</p>
+                    <input type="textarea" placeholder = "Du kan skrive her noget...">
+                </div>
+
+                <div class="loanbtn">
+                    <button type="button" value="Annulere" class="cancelBtn"  onclick="window.location.href='/produktside'">Annulere</button>
+
                     <input type="hidden" name="productid" th:value="${product.id}">
-                    <input type="hidden">
                     <button type="submit" class="approvalBtn">Bekræft lån</button>
-                </form>
 
-            </div>
+
+                </div>
+            </form>
         </div>
     </div>
 </div>

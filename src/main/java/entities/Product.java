@@ -79,4 +79,17 @@ public class Product {
     public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", picturePath='" + picturePath + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", stock=" + stock +
+                ", status=" + status +
+                ", deliveryDate=" + deliveryDate +
+                '}';
+    }
 }

@@ -58,16 +58,34 @@ public class ProductController {
     }
 
     private static void confirm(Context ctx){
+
+        // vi tilgår product-id
         int id = Integer.parseInt(ctx.queryParam("productid"));
+        System.out.println(id);
         Product product = productService.findProduct(id);
+        System.out.println(product);
+
+        // vi updaterer stock
         product.setStock(product.getStock() - 1);
+
+        // vi updaterer status, hvis stock = 0
         if(product.getStock() == 0){
             product.setStatus(Status.Udlånt);
         }
+
+        // vi tilgår loan på hjemmeside
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
+        System.out.println(loan);
+
+        // vi tilgår afleveringsdato på hjemmeside
         LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
+        System.out.println(afleveringsdato);
+
+        // Når brugeren låner udstyr, kan brugeren have på sin egen kurv
         user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), product.getStatus(), afleveringsdato));
+
+        System.out.println(user.getProducts());
 
         ctx.render("confirm");
 
