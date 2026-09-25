@@ -1,13 +1,9 @@
 package controllers;
 
-import entities.Product;
 import entities.User;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
-import services.ProductService;
 import services.UserService;
-
-import java.util.List;
 
 public class UserController {
 
@@ -17,15 +13,14 @@ public class UserController {
 
     public static void setRoutes(JavalinConfig config){
 
-        config.routes.get("/", ctx -> ctx.redirect("/Login function.html"));
+        config.routes.get("/", ctx -> ctx.render("Loginfunction"));
         config.routes.post("/login", ctx -> loginController(ctx));
-        config.routes.get("/ForgotPassword", ctx -> ctx.redirect("/ForgotPassword.html"));
-        config.routes.get("/myloan", ctx -> ctx.redirect("/myloan.html"));
-        config.routes.get("/produktside", ctx -> ctx.redirect("/produktside.html") );
+        config.routes.get("/ForgotPassword", ctx -> ctx.render("ForgotPassword"));
+        config.routes.get("/myloan", ctx -> ctx.render("myloan"));
+        config.routes.get("/produktside", ctx -> ctx.render("produktside") );
 
 
-        // Denne router kalder lån-knap
-        config.routes.get("/loan", ctx -> loan(ctx));  // for lån-knap
+
 
     }
 
@@ -37,27 +32,18 @@ public class UserController {
         User user = userService.login(schoolMail,password);
 
         if (user != null){
-            ctx.redirect("/produktside");
+            ctx.sessionAttribute("user", user);
+            ctx.render("produktside");
         } else {
             String message = "Brugernavn eller adgangskode er forkert";
             ctx.attribute("msg", message);
-            ctx.render("/templates/Login function.html");
+            ctx.render("Loginfunction");
 
         }
 
     }
 
-    private static void loan(Context ctx) {
 
-        // vi tilgår id
-        String id = ctx.queryParam("id");
-        ctx.attribute("id", id);
-
-        // denne id bliver sendt til loan.html
-        // fordi senere kan vi bruge denne id for at hente udstyr
-        ctx.render("/templates/loan.html");
-
-    }
 
 
 

@@ -16,6 +16,10 @@ public class UserService {
         users.add(user);
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
     public User getUser(String username){
         for(User user : users){
             if(user.getUsername().toUpperCase().equals(username.toUpperCase())){
@@ -43,7 +47,7 @@ public class UserService {
         if(getUser(username) != null){
             return null; // Username er allerede i brug
         }
-        User newUser = new User(username, password);
+        User newUser = new User(username, password, false);
         return newUser;
     }
 

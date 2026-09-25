@@ -1,15 +1,21 @@
 package controllers;
 
 import entities.Product;
+import entities.Status;
+import entities.User;
 import io.javalin.config.JavalinConfig;
+import io.javalin.http.Context;
 import services.ProductService;
+import services.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductController {
 
     // vi opretter først ProduktService her for at hente alle produkter
     static ProductService productService = new ProductService();
+    static UserService userService = new UserService();
 
     public static void setRoutes(JavalinConfig config){
 
@@ -24,7 +30,46 @@ public class ProductController {
             ctx.json(products);
         });
 
+        // Denne router kalder lån-knap
+        config.routes.get("/loan", ctx -> loan(ctx));  // for lån-knap
+        config.routes.get("/confirm", ctx -> confirm(ctx));
 
+
+    }
+
+    private static void loan(Context ctx) {
+
+        // vi tilgår id
+        int id = Integer.parseInt(ctx.queryParam("id"));
+        ctx.attribute("id", id);
+
+        Product product = productService.findProduct(id);
+        ctx.attribute("product", product);
+
+        ctx.attribute("date", LocalDate.now());
+
+        List<User> users = userService.getUsers();
+        ctx.attribute("users", users);
+
+        // denne id bliver sendt til loan.html
+        // fordi senere kan vi bruge denne id for at hente udstyr
+        ctx.render("loan");
+
+    }
+
+    private static void confirm(Context ctx){
+        int id = Integer.parseInt(ctx.queryParam("productid"));
+        Product product = productService.findProduct(id);
+        product.setStock(product.getStock() - 1);
+        if(product.getStock() == 0){
+            product.setStatus(Status.Udlånt);
+        }
+        String loan = ctx.queryParam("loan");
+        User user = productService.findUser(loan);
+        LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
+        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), product.getStatus(), afleveringsdato));
+
+        ctx.render("confirm");
 
     }
 

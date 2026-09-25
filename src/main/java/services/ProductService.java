@@ -1,18 +1,20 @@
 package services;
 
 import entities.Product;
+import entities.User;
 import factories.ProductFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
-
     private static List<Product> products;
+    private static UserService userService;
 
     // Når man opretter et nyt objekt med ProduktService, tilføjes alle produkter automatisk til listen.
     public ProductService() {
         this.products = ProductFactory.createProducts();
+        userService = new UserService();
     }
 
     // man kan tilføje et nyt produkt.
@@ -26,10 +28,10 @@ public class ProductService {
     }
 
     // man kan finde et product i forhold til name
-    public static Product findProduct(String name) {
+    public Product findProduct(int id) {
 
         for (Product product : products) {
-            if (product.getName().toUpperCase().equals(name.toUpperCase())) {
+            if (product.getId() == id) {
                 return product;
             }
         }
@@ -59,5 +61,15 @@ public class ProductService {
         }
 
         return search;
+    }
+
+    public static User findUser(String user){
+        List<User> users = userService.getUsers();
+        for(User user1 : users){
+            if(user1.getUsername().equals(user)){
+                return user1;
+            }
+        }
+        return null;
     }
 }

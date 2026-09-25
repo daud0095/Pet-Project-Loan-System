@@ -15,7 +15,7 @@ public class ProductFactory {
         // Product er tilføjet manuelt
         // Senere kan vi hente udstyr fra databasen
         List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "computer.png", "Computer", "16 RAM", 8, Status.Ledigt, null));
+        products.add(new Product(1, "computer.png", "Computer", "16 RAM", 1, Status.Ledigt, null));
         products.add(new Product(2, "kamera.png", "Kamera", "Canon", 0, Status.Udlånt, LocalDate.of(2026, 10, 5)));
         products.add(new Product(3, "mikrofon.png", "Mikrofon", "USB mikrofon", 20, Status.Ledigt, null));
         products.add(new Product(4, "projektor.png", "Projektor", "Epson", 0, Status.Udlånt, LocalDate.of(2026, 10, 10)));

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>confirm</title>
+    <link rel="stylesheet" href="/css/produktside.css">
+</head>
+<body>
+
+<div class="produktside">
+    <!--Venstre side (Menu)-->
+    <div class="sidebar">
+        <div class="titel">
+            <div class="smbl"><img src="/images/loanudstyr.svg"></div>
+            <header>
+                Lånesystem for skoler
+            </header>
+        </div>
+        <div class="menu">
+            <div class="submenu">
+                <div class="smbl"><img src="/images/udstyr.svg"></div>
+                <h2><a href="/produktside">Udstyr</a></h2>
+            </div>
+            <div class="submenu">
+                <div class="smbl"><img src="/images/minelan.svg"></div>
+                <h2><a href="/myloan">Mine lån</a></h2>
+            </div>
+        </div>
+        <div class="logud">
+            <div class="smbl"><img class="logudsmbl" src="/images/logud.svg"></div>
+            <footer>
+                <a href="Login%20function.html">Log ud</a>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Udstyr skal vises -->
+    <div class="produktpage">
+
+        <div>
+            <h1>Produktet er lånt</h1>
+            <p>Hvis produktet ikke bliver afleveret til det dato det er sat til, kommer der geby!</p>
+        </div>
+
+        <form action="/produktside" method="get">
+            <input type="hidden">
+            <button type="submit">Ok</button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
