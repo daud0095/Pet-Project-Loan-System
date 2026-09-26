@@ -25,6 +25,13 @@
                     <div class="smbl"><img src="/images/minelan.svg"></div>
                     <h2><a href="/myloan">Mine lån</a></h2>
                 </div>
+
+                <div class="submenu" th:if="${session.user.isAdmin}">
+                    <div class="smbl"><img src="/images/minelan.svg"></div>
+                    <h2><a href="/returnere">Afleverer</a></h2>
+                </div>
+
+
             </div>
             <div class="logud">
                 <div class="smbl"><img class="logudsmbl" src="/images/logud.svg"></div>

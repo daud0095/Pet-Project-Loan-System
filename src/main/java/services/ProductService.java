@@ -14,7 +14,7 @@ public class ProductService {
     // Når man opretter et nyt objekt med ProduktService, tilføjes alle produkter automatisk til listen.
     public ProductService() {
         this.products = ProductFactory.createProducts();
-        userService = new UserService();
+        userService = UserService.getInstance();
     }
 
     // man kan tilføje et nyt produkt.

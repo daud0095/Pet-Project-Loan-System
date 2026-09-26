@@ -34,13 +34,23 @@ public class ProductController {
         config.routes.get("/loan", ctx -> loan(ctx));  // for lån-knap
         config.routes.get("/confirm", ctx -> confirm(ctx));
         config.routes.get("/myloan", ctx -> myLoan(ctx));
+        config.routes.get("/returnere", ctx->  adminreturn(ctx));
 
 
     }
 
+    public static void adminreturn(Context ctx) {
+        ctx.render("adminreturn");
+    }
+
     public static void myLoan(Context ctx){
+
+        // vi henter user
         User user = ctx.sessionAttribute("user");
+        // Alle users product
         List<Product> products = user.getProducts();
+
+        // vi sender products videre til myloan.html
         ctx.attribute("products", products);
         ctx.render("myLoan");
     }
@@ -90,8 +100,9 @@ public class ProductController {
         LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
         System.out.println(afleveringsdato);
 
+
         // Når brugeren låner udstyr, kan brugeren have på sin egen kurv
-        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), product.getStatus(), afleveringsdato, product.getLoanDate()));
+        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), product.getStatus(), afleveringsdato, LocalDate.now()));
 
         System.out.println(user.getProducts());
 
