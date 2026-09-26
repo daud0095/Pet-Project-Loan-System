@@ -6,6 +6,15 @@ import factories.UserFactory;
 import java.util.List;
 
 public class UserService {
+
+    private static UserService instance = new UserService();
+
+
+    public static UserService getInstance(){
+        return instance;
+
+    }
+
     private List<User> users;
 
     public UserService(){

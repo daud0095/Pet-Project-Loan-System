@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Mine lån</title>
   <link rel="stylesheet" href="/css/produktside.css">
+  <link rel="stylesheet" href="/css/myLoan.css">
 </head>
 <body>
 <div class="produktside">
@@ -28,13 +29,42 @@
     <div class="logud">
       <div class="smbl"><img class="logudsmbl" src="/images/logud.svg"></div>
       <footer>
-        <a href="Login%20function.html">Log ud</a>
+        <a href="/logout">Log ud</a>
       </footer>
     </div>
   </div>
 
   <!-- Mine lån skal vises -->
   <div class="produktpage">
+    <div>
+      <h3>Mine lån</h3>
+      <div class="myLoanButtom">
+        <button class="activeLoan">Aktive lån</button>
+        <button class="returnLoan">Afleveret lån</button>
+      </div>
+      <div class="udstyrliste">
+        <table>
+          <thead>
+          <tr>
+            <th>Udstyr</th>
+            <th>Låne dato</th>
+            <th>Afleverings dato</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <div th:each="product:${products}">
+            <tr>
+              <td th:text="${product.name}">Computer</td>
+              <td th:text="${product.loanDate}">Lån dato</td>
+              <td th:text="${product.deliveryDate}">Afleveringsdato</td>
+              <td th:text="${product.status}">Status</td>
+            </tr>
+          </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   </div>
 </div>

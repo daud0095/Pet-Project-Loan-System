@@ -7,7 +7,7 @@ import services.UserService;
 
 public class UserController {
 
-    static UserService userService = new UserService();
+    static UserService userService = UserService.getInstance();
 
 
 
@@ -16,8 +16,8 @@ public class UserController {
         config.routes.get("/", ctx -> ctx.render("Loginfunction"));
         config.routes.post("/login", ctx -> loginController(ctx));
         config.routes.get("/ForgotPassword", ctx -> ctx.render("ForgotPassword"));
-        config.routes.get("/myloan", ctx -> ctx.render("myloan"));
         config.routes.get("/produktside", ctx -> ctx.render("produktside") );
+        config.routes.get("/logout", ctx -> ctx.render("loginfunction"));
 
 
 
