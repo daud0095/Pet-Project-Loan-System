@@ -68,7 +68,7 @@
             <th>Udstyr</th>
             <th>Låne dato</th>
             <th>Afleverings dato</th>
-            <th th:if="${active}">Return dato</th>
+            <th th:if="${filter == 'afleveret'}">Return dato</th>
             <th>Gebyr</th>
           </tr>
           </thead>
@@ -77,7 +77,7 @@
               <td th:text="${product.name}">Computer</td>
               <td th:text="${product.loanDate}">Lån dato</td>
               <td th:text="${product.deliveryDate}">Afleveringsdato</td>
-              <td th:if="${active}" th:text="${product.deliveryDate}">returndato</td>
+              <td th:if="${filter == 'afleveret'}" th:text="${product.deliveryDate}">returndato</td>
               <td>Gebyr</td>
             </tr>
           </tbody>
@@ -87,6 +87,6 @@
 
   </div>
 </div>
-<script src="/js/myloan.js" defer></script>
+
 </body>
 </html>

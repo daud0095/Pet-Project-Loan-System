@@ -98,8 +98,12 @@
             linjeIndholdStatus.className = "status";
             linjeIndholdStatus.textContent = data[i].status;
 
+            if (data[i].stock === 0) {
+                linjeIndholdStatus.innerHTML = "Udlånt";
+            }
+
             // Hvis status er "udlånt", ændres baggrundsfarven.
-            if (data[i].status === "Udlånt") {
+            if (data[i].status === "Udlånt" || linjeIndholdStatus.innerHTML === "Udlånt" ) {
                 linjeIndholdStatus.style.background = "red";
             } else {
                 linjeIndholdStatus.style.background = "#DAFFD6";

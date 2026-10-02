@@ -99,21 +99,11 @@ public class ProductController {
         // vi henter user
         User user = ctx.sessionAttribute("user");
 
+        //  ************************
+        //  Aktive loan og afleveret loan producter findes her
+
         // "Aktive", "Afleveret" eller null
         String filter = ctx.queryParam("filter");
-
-        // vi kam tilgå id
-        String id = ctx.queryParam("id");
-        int newID;
-
-        // Hvis id = null, tager vi id direkt 1
-        // fordi når vi klikker først på aflverer-knap, skal aktiveloan fungeres
-        if (id != null) {
-            newID = Integer.parseInt(id);
-        } else {
-            newID = 1;
-        }
-
         // Alle users product
         List<Product> products = new ArrayList<>();
         for (Product product : user.getProducts()){
@@ -123,17 +113,6 @@ public class ProductController {
                 if(product.getStatus() == Status.Udlånt) products.add(product);
             }
         }
-        List<Product> products = null;
-        if (newID == 1) {
-            products = user.getProducts();
-            // det behøver ikke returndato, hvis det er aktiveloan
-            ctx.attribute("active", false);
-        } else {
-            ctx.attribute("active", true);
-        }
-
-        // vi kan lave senere returnloan data efter database
-
 
         // vi sender products videre til myloan.html
         ctx.attribute("products", products);
