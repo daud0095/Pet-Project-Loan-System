@@ -9,6 +9,7 @@ import services.ProductService;
 import services.UserService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController {
@@ -97,6 +98,10 @@ public class ProductController {
 
         // vi henter user
         User user = ctx.sessionAttribute("user");
+
+        // "Aktive", "Afleveret" eller null
+        String filter = ctx.queryParam("filter");
+
         // vi kam tilgå id
         String id = ctx.queryParam("id");
         int newID;
@@ -110,6 +115,14 @@ public class ProductController {
         }
 
         // Alle users product
+        List<Product> products = new ArrayList<>();
+        for (Product product : user.getProducts()){
+            if("afleveret".equals(filter)){
+                if(product.getStatus() != Status.Udlånt) products.add(product);
+            } else {
+                if(product.getStatus() == Status.Udlånt) products.add(product);
+            }
+        }
         List<Product> products = null;
         if (newID == 1) {
             products = user.getProducts();
@@ -124,6 +137,7 @@ public class ProductController {
 
         // vi sender products videre til myloan.html
         ctx.attribute("products", products);
+        ctx.attribute("filter", filter);
         ctx.render("myLoan");
     }
 
@@ -174,13 +188,14 @@ public class ProductController {
 
 
         // Når brugeren låner udstyr, kan brugeren have på sin egen kurv
-        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), product.getStatus(), afleveringsdato, LocalDate.now()));
+        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), Status.Udlånt, afleveringsdato, LocalDate.now()));
 
         System.out.println(user.getProducts());
 
         ctx.render("confirm");
 
     }
+
 
 
 }
