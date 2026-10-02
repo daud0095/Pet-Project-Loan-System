@@ -1,0 +1,15 @@
+Tabeller:
+- User: user_id, username, password, isAdmin, createDate
+user_id skal være primery key. user_id bliver lavet automatisk.
+
+- Product: product_id, name, picturePath, description, stock, status
+
+-Loan: loan_id, product_id, user_id, loan_date, forventet_aflveveringsdato, return_date, bemærkning, geby_id
+loan_id skal være primary key
+product_id skal være foreign key
+user_id skal foreign key fordi loan indeholder user_id, de forbinder med user tabel.
+
+-Status: status_id, status_code.
+
+-Geby: gebyr_id, lateDay, cost
+

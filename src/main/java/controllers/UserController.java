@@ -35,6 +35,7 @@ public class UserController {
             ctx.sessionAttribute("user", user);
             ctx.render("produktside");
         } else {
+            ctx.status(401);
             String message = "Brugernavn eller adgangskode er forkert";
             ctx.attribute("msg", message);
             ctx.render("Loginfunction");

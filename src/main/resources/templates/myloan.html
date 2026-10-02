@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Mine lån</title>
+  <meta charset="UTF-8">
+  <title>Mine lån</title>
   <link rel="stylesheet" href="/css/produktside.css">
   <link rel="stylesheet" href="/css/myLoan.css">
 </head>
@@ -44,8 +44,10 @@
     <div>
       <h3>Mine lån</h3>
       <div class="myLoanButtom">
-        <button class="activeLoan">Aktive lån</button>
-        <button class="returnLoan">Afleveret lån</button>
+        <a class="activeLoan" href="/myloan?filter=aktive"
+           th:classappend="${filter != 'afleveret'} ? 'selected'">Aktive lån</a>
+        <a class="returnLoan" href="/myloan?filter=afleveret"
+           th:classappend="${filter == 'afleveret'} ? 'selected'">Afleveret lån</a>
       </div>
       <div class="udstyrliste">
         <table>
@@ -58,14 +60,12 @@
           </tr>
           </thead>
           <tbody>
-          <div th:each="product:${products}">
-            <tr>
+            <tr th:each="product:${products}">
               <td th:text="${product.name}">Computer</td>
               <td th:text="${product.loanDate}">Lån dato</td>
               <td th:text="${product.deliveryDate}">Afleveringsdato</td>
               <td th:text="${product.status}">Status</td>
             </tr>
-          </div>
           </tbody>
         </table>
       </div>
