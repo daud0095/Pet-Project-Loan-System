@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Return</title>
     <link rel="stylesheet" href="/css/produktside.css">
+    <link rel="stylesheet" href="/css/adminreturn.css">
 </head>
 <body>
 <div class="produktside">
@@ -30,6 +31,17 @@
                 <h2><a href="/returnere">Afleverer</a></h2>
             </div>
 
+            <!-- admin kan se alle brugere eller oprette ny bruger-->
+            <div class="submenu" th:if="${session.user.isAdmin}">
+                <div class="smbl"><img src="/images/minelan.svg"></div>
+                <h2><a href="/brugere">Brugere</a></h2>
+            </div>
+
+            <div class="submenu" th:if="${session.user.isAdmin}">
+                <div class="smbl"><img src="/images/minelan.svg"></div>
+                <h2><a href="/administration">Administration</a></h2>
+            </div>
+
 
         </div>
         <div class="logud">
@@ -42,8 +54,49 @@
 
     <!-- Udstyr skal vises -->
     <div class="produktpage">
+        <div>
+            <!-- der kan være en søgefunction, vi kan finde flere bruger på den måde og deres udstyr og oplysninger -->
+            <h3>Aflevere lån</h3>
+            <form action="/returnere" method="get">
+                <input type="search" name="search" th:value="${param.search}" placeholder="Søge efter en bruger...">
+                <button type="submit">Search</button>
+            </form>
 
+            <p th:text="${msg}"></p>
+
+            <!--indhold-->
+            <form action="/returnConfirm" method="get">
+
+                <!--når man klikker førts aflevere-menu, er der ikke user. Derfor hvis det er null, kommer user-information ikke til skærmen -->
+                <label for="loan">låner</label>
+                <select name="loan" id="loan">
+                    <option th:if="${user != null }" th:text="${user.username}">Bruger</option>
+                </select>
+
+                <label for="udstyr">Udstyr</label>
+                <select name="udstyr" id="udstyr">
+                    <option th:each="product : ${products}"  th:value="${product.name}"  th:text="${product.name}" >udstyr</option>
+                </select>
+
+                <!--Det skal ikke være fast. vi vælger udstyr og så kommer deres oplysninsger her  -->
+                <!--først kommer det ingen.-->
+                <!--vi kan ændre disse data ved hjælpe af javascript fordi vi lytter til udstyr-->
+                <!--når udstyr vælges, så sker der noget-->
+                <div class="information" th:if="${user != null and productlength > 0}">
+                    <p id="loandate"> Loan Date: 26.10.2026</p>
+                    <p id="afleveringsdate"> Afleverings Date: 26.10.2026</p>
+                    <p id="lateday"> lateDay: 24</p>
+                    <p id="gebyr"> Gebyr: 25 KR</p>
+                </div>
+
+                <button type="submit">Aflevere lån</button>
+
+            </form>
+
+
+        </div>
     </div>
 </div>
+<script src="/js/adminreturn.js" defer></script>
 </body>
 </html>

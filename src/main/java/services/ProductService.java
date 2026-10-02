@@ -66,10 +66,23 @@ public class ProductService {
     public static User findUser(String user){
         List<User> users = userService.getUsers();
         for(User user1 : users){
-            if(user1.getUsername().equals(user)){
+            if(user1.getUsername().toUpperCase().equals(user.toUpperCase())){
                 return user1;
             }
         }
         return null;
     }
+
+    public static Product findProductByName(User user, String name) {
+
+        for (Product product : user.getProducts()) {
+            if (product.getName().toUpperCase().equals(name.toUpperCase())) {
+                return product;
+            }
+        }
+
+        return null;
+    }
+
+
 }

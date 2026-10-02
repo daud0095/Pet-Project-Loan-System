@@ -36,19 +36,91 @@ public class ProductController {
         config.routes.get("/myloan", ctx -> myLoan(ctx));
         config.routes.get("/returnere", ctx->  adminreturn(ctx));
 
+        // Denne routes fungerer for adminreturn.js
+        // adminreturn.js fanger "findproduct" rotues
+        config.routes.get("/findproduct", ctx->  getProduct(ctx));
+
+
+        config.routes.get("/brugere", ctx -> ctx.render("brugere"));
+        config.routes.get("/administration", ctx->  administration(ctx));
 
     }
 
+    public static void administration(Context ctx) {
+        ctx.render("administration");
+    }
+
     public static void adminreturn(Context ctx) {
+
+        // for search er method get. vi tilgår search fordi vi søge først efter en bruger
+        String search = ctx.queryParam("search");
+        if (search != null) {
+            User user = productService.findUser(search);
+
+            if (user == null) {
+                String msg = "Findes ikke brugere. Prøv igen";
+                ctx.attribute("msg", msg);
+            } else {
+                ctx.attribute("user", user);
+
+                // vi finder users producter
+                List<Product> products = user.getProducts();
+                ctx.attribute("products", products);
+                ctx.attribute("productlength", products.size());
+
+            }
+
+        }
+
         ctx.render("adminreturn");
+    }
+
+    // Denne method er for adminreturn.js
+    // Json bliver sendt til adminreturn.js (product)
+    public static void getProduct(Context ctx) {
+        String udstyr = ctx.queryParam("udstyr");
+        String loan = ctx.queryParam("loan");
+
+        User user = productService.findUser(loan);
+        Product product = productService.findProductByName(user, udstyr);
+
+        if (product == null) {
+            ctx.status(404).result("Produktet blev ikke fundet");
+            return;
+        }
+
+        ctx.json(product);
+
     }
 
     public static void myLoan(Context ctx){
 
         // vi henter user
         User user = ctx.sessionAttribute("user");
+        // vi kam tilgå id
+        String id = ctx.queryParam("id");
+        int newID;
+
+        // Hvis id = null, tager vi id direkt 1
+        // fordi når vi klikker først på aflverer-knap, skal aktiveloan fungeres
+        if (id != null) {
+            newID = Integer.parseInt(id);
+        } else {
+            newID = 1;
+        }
+
         // Alle users product
-        List<Product> products = user.getProducts();
+        List<Product> products = null;
+        if (newID == 1) {
+            products = user.getProducts();
+            // det behøver ikke returndato, hvis det er aktiveloan
+            ctx.attribute("active", false);
+        } else {
+            ctx.attribute("active", true);
+        }
+
+        // vi kan lave senere returnloan data efter database
+
 
         // vi sender products videre til myloan.html
         ctx.attribute("products", products);

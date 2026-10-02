@@ -30,6 +30,18 @@
         <div class="smbl"><img src="/images/minelan.svg"></div>
         <h2><a href="/returnere">Afleverer</a></h2>
       </div>
+
+      <!-- admin kan se alle brugere eller oprette ny bruger-->
+      <div class="submenu" th:if="${session.user.isAdmin}">
+        <div class="smbl"><img src="/images/minelan.svg"></div>
+        <h2><a href="/brugere">Brugere</a></h2>
+      </div>
+
+      <div class="submenu" th:if="${session.user.isAdmin}">
+        <div class="smbl"><img src="/images/minelan.svg"></div>
+        <h2><a href="/administration">Administration</a></h2>
+      </div>
+
     </div>
     <div class="logud">
       <div class="smbl"><img class="logudsmbl" src="/images/logud.svg"></div>
@@ -54,7 +66,8 @@
             <th>Udstyr</th>
             <th>Låne dato</th>
             <th>Afleverings dato</th>
-            <th>Status</th>
+            <th th:if="${active}">Return dato</th>
+            <th>Gebyr</th>
           </tr>
           </thead>
           <tbody>
@@ -63,7 +76,8 @@
               <td th:text="${product.name}">Computer</td>
               <td th:text="${product.loanDate}">Lån dato</td>
               <td th:text="${product.deliveryDate}">Afleveringsdato</td>
-              <td th:text="${product.status}">Status</td>
+              <td th:if="${active}" th:text="${product.deliveryDate}">returndato</td>
+              <td>Gebyr</td>
             </tr>
           </div>
           </tbody>
@@ -73,6 +87,6 @@
 
   </div>
 </div>
-
+<script src="/js/myloan.js" defer></script>
 </body>
 </html>

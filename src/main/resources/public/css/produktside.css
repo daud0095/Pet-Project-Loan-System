@@ -167,7 +167,14 @@ header {
     background-color: white;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    overflow: hidden;
+    overflow-y: auto;
+    max-height: 390px;
+}
+
+.udstyrliste thead {
+    position: sticky;
+    top: 0;
+    background-color: lightgray;
 }
 
 a {
@@ -182,7 +189,7 @@ a {
 }
 
 .udstyrliste th {
-    background-color: lightgray;
+    background-color: #c9f4fd;
     padding: 12px;
     text-align: left;
     font-size: 12px;
