@@ -51,18 +51,14 @@ public class ProductController {
     public static void returnConfirm(Context ctx){
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
-        System.out.println(user);
 
         String product = ctx.queryParam("udstyr");
         Product product1 = productService.findProductByName(product);
-        System.out.println(product1);
 
         user.chanceProduct(product1);
 
         product1.setStock(product1.getStock()+1);
         product1.setStatus(Status.Ledigt);
-        System.out.println(product1);
-
 
         ctx.attribute("user", user);
         ctx.attribute("product", product1);
