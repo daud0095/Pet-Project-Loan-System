@@ -44,6 +44,24 @@ public class ProductController {
 
         config.routes.get("/brugere", ctx -> ctx.render("brugere"));
         config.routes.get("/administration", ctx->  administration(ctx));
+        config.routes.get("/returnConfirm", ctx -> returnConfirm(ctx));
+
+    }
+
+    public static void returnConfirm(Context ctx){
+        String loan = ctx.queryParam("loan");
+        User user = productService.findUser(loan);
+        String product = ctx.queryParam("udstyr");
+        Product product1 = productService.findProductByName(product);
+
+        user.getProducts().remove(product1);
+        product1.setStock(product1.getStock()+1);
+        product1.setStatus(Status.Ledigt);
+        ctx.attribute("user", user);
+        ctx.attribute("product", product1);
+
+        ctx.render("returnconfirm");
+
 
     }
 
