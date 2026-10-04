@@ -39,6 +39,17 @@ public class ProductService {
         return null;
     }
 
+    public Product findProductByName(String name) {
+
+        for (Product product : products) {
+            if (product.getName().equals(name)) {
+                return product;
+            }
+        }
+
+        return null;
+    }
+
     // vi kan hente alle produkter med get
     public static List<Product> getProducts() {
         return products;
