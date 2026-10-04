@@ -86,7 +86,15 @@ public class ProductController {
 
                 // vi finder users producter
                 List<Product> products = user.getProducts();
-                ctx.attribute("products", products);
+                List<Product> loanProducts = new ArrayList<>();
+                for (Product p : products) {
+                    if (p.getStatus().equals(Status.Udlånt)) {
+                        loanProducts.add(p);
+                    }
+                }
+
+
+                ctx.attribute("products", loanProducts);
                 ctx.attribute("productlength", products.size());
 
             }
