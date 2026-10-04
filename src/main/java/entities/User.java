@@ -38,5 +38,24 @@ public class User {
     public void addProduct(Product product){
         products.add(product);
     }
+
+    public void chanceProduct(Product product){
+
+        for (Product p : products) {
+            if (p == product) {
+                p.setStatus(Status.Ledigt);
+                p.setStock(product.getStock() + 1);
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
 }
 
