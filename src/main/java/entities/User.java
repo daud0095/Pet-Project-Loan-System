@@ -42,7 +42,7 @@ public class User {
     public void chanceProduct(Product product){
 
         for (Product p : products) {
-            if (p == product) {
+            if (p.getId() == product.getId()) {
                 p.setStatus(Status.Ledigt);
                 p.setStock(product.getStock() + 1);
             }
