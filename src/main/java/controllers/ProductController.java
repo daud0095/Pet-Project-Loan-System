@@ -144,9 +144,7 @@ public class ProductController {
 
         // vi tilgår product-id
         int id = Integer.parseInt(ctx.queryParam("productid"));
-        System.out.println(id);
         Product product = productService.findProduct(id);
-        System.out.println(product);
 
         // vi updaterer stock
         product.setStock(product.getStock() - 1);
@@ -159,7 +157,6 @@ public class ProductController {
         // vi tilgår loan på hjemmeside
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
-        System.out.println(loan);
 
         // vi tilgår afleveringsdato på hjemmeside
         LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
