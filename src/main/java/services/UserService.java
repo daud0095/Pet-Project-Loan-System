@@ -2,13 +2,21 @@ package services;
 
 import entities.User;
 import factories.UserFactory;
+import persistence.ConnectionPool;
+import persistence.UserMapper;
 
 import java.util.List;
 
 public class UserService {
 
     private static UserService instance = new UserService();
+    private ConnectionPool connectionPool;
+    private UserMapper userMapper;
 
+    public UserService(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+        this.userMapper = new UserMapper(connectionPool);
+    }
 
     public static UserService getInstance(){
         return instance;

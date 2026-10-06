@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private int id;
     private String username;
     private String password;
     private boolean isAdmin;
     private List<Product> products;
 
-    public User (String username, String password, boolean isAdmin){
+    public User (int id, String username, String password, boolean isAdmin){
+        this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
@@ -23,9 +25,25 @@ public class User {
     public boolean isAdmin() {return isAdmin;}
     public List<Product> getProducts() {return products;}
 
+    public int getId() {
+        return id;
+    }
+
     // Setter
     public void setUsername(String username) {this.username = username;}
     public void setPassword(String password) {this.password = password;}
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     @Override
     public String toString() {
