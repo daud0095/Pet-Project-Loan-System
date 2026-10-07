@@ -77,10 +77,7 @@ public class UserMapper {
 
     public User getUserByUserName(String userName) throws DatabaseException {
         User user = null;
-        String query = "SELECT user_id, username, password, /"isAdmin/" " +
-                "FROM public."User" " +
-                "WHERE username = ? " +
-                "ORDER BY user_id ASC";
+        String query = "SELECT user_id, username, password,  \"isAdmin\", \"createDate\" FROM \"User\" where username = ? ";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
             stm.setString(1, userName);
