@@ -50,30 +50,21 @@ public class UserMapper {
 //        return result;
 //    }
 
-//    public User createUser(User user) throws DatabaseException {
-//        String query = "INSERT INTO laaner (username, fornavn, efternavn, adresse, postnr, password) " +
-//                " VALUES ?, ?, ?, ?, ?, ?";
-//        try (Connection connection = connectionPool.getConnection();
-//             PreparedStatement stm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-//            stm.setString(1, user.getUserName());
-//            stm.setString(2, user.getFirstName());
-//            stm.setString(3, user.getLastName());
-//            stm.setString(4, user.getAddress());
-//            stm.setInt(5, user.getZip());
-//            stm.setString(6, user.getPassword());
-//            stm.executeUpdate();
-//            try (ResultSet rs = stm.getGeneratedKeys()) {
-//                if (rs.next()) {
-//                    user.setId(rs.getInt("laaner_id"));
-//                } else throw new DatabaseException("Brugeren kunne ikke oprettes");
-//            }
-//
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            throw new DatabaseException("Brugeren blev ikke gemt ");
-//        }
-//        return user;
-//    }
+    public User createUser(User user) throws DatabaseException {
+        String query = "INSERT INTO \"User\" (username, password, \"isAdmin\") VALUES (?, ?, ?)";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement stm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getPassword());
+            stm.setBoolean(3, user.isAdmin());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DatabaseException("Brugeren blev ikke gemt ");
+        }
+        return user;
+    }
 
     public User getUserByUserName(String userName) throws DatabaseException {
         User user = null;
@@ -96,5 +87,27 @@ public class UserMapper {
             throw new DatabaseException("Søgning efter brugeren fejlede");
         }
         return user;
+    }
+
+    public List<User> getUsers() throws DatabaseException {
+        String query = "SELECT user_id, username, password,  \"isAdmin\", \"createDate\" FROM \"User\" ";
+        List<User> users = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement stm = connection.prepareStatement(query)) {
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("user_id");
+                    String username = rs.getString("username");
+                    String password = rs.getString("password");
+                    boolean isAdmin = rs.getBoolean("isAdmin");
+                    LocalDate createDate = rs.getObject("create_date", LocalDate.class);
+                     users.add(new User(id, username, password, isAdmin));
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new DatabaseException("Søgning efter brugeren fejlede");
+        }
+        return users;
     }
 }

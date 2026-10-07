@@ -18,6 +18,11 @@ public class User {
         this.products = new ArrayList<>();
     }
 
+    public User(String username, String password, boolean isAdmin) {
+        this.username = username;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
 
     // Getter
     public String getUsername() {return username;}

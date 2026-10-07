@@ -1,7 +1,7 @@
 package services;
 
 import entities.User;
-import factories.UserFactory;
+import exceptions.DatabaseException;
 import persistence.ConnectionPool;
 import persistence.UserMapper;
 
@@ -9,7 +9,6 @@ import java.util.List;
 
 public class UserService {
 
-    private static UserService instance = new UserService();
     private ConnectionPool connectionPool;
     private UserMapper userMapper;
 
@@ -18,43 +17,19 @@ public class UserService {
         this.userMapper = new UserMapper(connectionPool);
     }
 
-    public static UserService getInstance(){
-        return instance;
-
+    public List<User> getUsers() throws DatabaseException {
+        return userMapper.getUsers();
     }
 
-    private List<User> users;
-
-    public UserService(){
-        this.users = UserFactory.createUsers();
+    public User getUser(String username) throws DatabaseException {
+        return userMapper.getUserByUserName(username);
     }
 
-    public void addUser(User user){
-        users.add(user);
+    public  User login(String username, String password) throws DatabaseException {
+        return userMapper.login(username, password);
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public User getUser(String username){
-        for(User user : users){
-            if(user.getUsername().toUpperCase().equals(username.toUpperCase())){
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public  User login(String username, String password){
-        User user = getUser(username);
-        if(user != null && user.getPassword().equals(password)){
-            return user;
-        }
-        return null;
-    }
-
-    public User createUser(String username, String password){
+    public User createUser(String username, String password) throws DatabaseException {
         if(username == null || username.isEmpty()){
             return null;
         }
@@ -65,7 +40,7 @@ public class UserService {
             return null; // Username er allerede i brug
         }
         User newUser = new User(username, password, false);
-        return newUser;
+        return userMapper.createUser(newUser);
     }
 
     public boolean validatePassword(String password){

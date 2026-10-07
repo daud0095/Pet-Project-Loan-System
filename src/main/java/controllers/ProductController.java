@@ -3,8 +3,10 @@ package controllers;
 import entities.Product;
 import entities.Status;
 import entities.User;
+import exceptions.DatabaseException;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
+import persistence.ConnectionPool;
 import services.ProductService;
 import services.UserService;
 
@@ -15,19 +17,26 @@ import java.util.List;
 public class ProductController {
 
     // vi opretter først ProduktService her for at hente alle produkter
-    static ProductService productService = new ProductService();
-    static UserService userService = UserService.getInstance();
+    private ProductService productService;
+    private UserService userService;
+    private ConnectionPool connectionPool;
 
-    public static void setRoutes(JavalinConfig config){
+    public ProductController(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+        this.userService = new UserService(connectionPool);
+        this.productService = new ProductService(connectionPool);
+    }
+
+    public void setRoutes(JavalinConfig config){
 
         // for at sende alle udstyr til javascript
         // /api/products  ==>  javascript fanger denne url for at hente alle produkter
         // Denne routes sender alle produkter videre til javascript ved hjælpe af  "productService.getProducts()"
         // ProduktServices konstruktør har "ProductFactory.createProducts()"
         // ctx.json omdanner dataerne til json
-        List<Product> products = productService.getProducts();
 
         config.routes.get("/products", ctx -> {
+            List<Product> products = productService.getProducts();
             ctx.json(products);
         });
 
@@ -48,7 +57,7 @@ public class ProductController {
 
     }
 
-    public static void returnConfirm(Context ctx){
+    public void returnConfirm(Context ctx) throws DatabaseException {
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
 
@@ -58,6 +67,8 @@ public class ProductController {
         user.chanceProduct(product1);
 
         product1.setStock(product1.getStock()+1);
+        productService.updateProductStockMinus(product1.getId());
+        productService.updateProductStatus(product1.getId(), String.valueOf(Status.Ledigt));
         product1.setStatus(Status.Ledigt);
 
         ctx.attribute("user", user);
@@ -67,11 +78,11 @@ public class ProductController {
 
     }
 
-    public static void administration(Context ctx) {
+    public void administration(Context ctx) {
         ctx.render("administration");
     }
 
-    public static void adminreturn(Context ctx) {
+    public void adminreturn(Context ctx) throws DatabaseException {
 
         // for search er method get. vi tilgår search fordi vi søge først efter en bruger
         String search = ctx.queryParam("search");
@@ -85,13 +96,9 @@ public class ProductController {
                 ctx.attribute("user", user);
 
                 // vi finder users producter
-                List<Product> products = user.getProducts();
-                List<Product> loanProducts = new ArrayList<>();
-                for (Product p : products) {
-                    if (p.getStatus().equals(Status.Udlånt)) {
-                        loanProducts.add(p);
-                    }
-                }
+                List<Product> products = productService.getUsersProduct(user);
+
+                List<Product> loanProducts = productService.getUsersProductByStatus(user, String.valueOf(Status.Udlånt));
 
 
                 ctx.attribute("products", loanProducts);
@@ -106,7 +113,7 @@ public class ProductController {
 
     // Denne method er for adminreturn.js
     // Json bliver sendt til adminreturn.js (product)
-    public static void getProduct(Context ctx) {
+    public void getProduct(Context ctx) throws DatabaseException {
         String udstyr = ctx.queryParam("udstyr");
         String loan = ctx.queryParam("loan");
 
@@ -122,7 +129,7 @@ public class ProductController {
 
     }
 
-    public static void myLoan(Context ctx){
+    public void myLoan(Context ctx) throws DatabaseException {
 
         // vi henter user
         User user = ctx.sessionAttribute("user");
@@ -134,7 +141,7 @@ public class ProductController {
         String filter = ctx.queryParam("filter");
         // Alle users product
         List<Product> products = new ArrayList<>();
-        for (Product product : user.getProducts()){
+        for (Product product : productService.getUsersProduct(user)){
             System.out.println(product);
             if("afleveret".equals(filter)){
                 if(product.getStatus() != Status.Udlånt) products.add(product);
@@ -149,7 +156,7 @@ public class ProductController {
         ctx.render("myLoan");
     }
 
-    private static void loan(Context ctx) {
+    private void loan(Context ctx) throws DatabaseException {
 
         // vi tilgår id
         int id = Integer.parseInt(ctx.queryParam("id"));
@@ -169,7 +176,7 @@ public class ProductController {
 
     }
 
-    private static void confirm(Context ctx){
+    private void confirm(Context ctx) throws DatabaseException {
 
         // vi tilgår product-id
         int id = Integer.parseInt(ctx.queryParam("productid"));
@@ -177,15 +184,21 @@ public class ProductController {
 
         // vi updaterer stock
         product.setStock(product.getStock() - 1);
+        productService.updateProductStockMinus(product.getId());
 
         // vi updaterer status, hvis stock = 0
         if(product.getStock() == 0){
             product.setStatus(Status.Udlånt);
+
         }
 
         // vi tilgår loan på hjemmeside
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
+        if(product.getStock() == 0){
+           Product product1 =  productService.getUsersProduct(user, product);
+           productService.updateProductStatus(product1.getId(), String.valueOf(Status.Udlånt));
+        }
 
         // vi tilgår afleveringsdato på hjemmeside
         LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
