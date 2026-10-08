@@ -27,7 +27,7 @@ public class ProductMapper {
 
     public List<Product> getProducts() throws DatabaseException {
         String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Status\".status_id = \"Product\".status";
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id";
         List<Product> products = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
@@ -51,13 +51,13 @@ public class ProductMapper {
 
     public Product getProductsById(int id) throws DatabaseException {
         String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Status\".status_id = \"Product\".status " +
-                "where product_id =? ";
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where product_id =?";
         Product product = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
+            stm.setInt(1,id);
             try (ResultSet rs = stm.executeQuery()) {
-                stm.setInt(1,id);
+
                 if (rs.next()) {
                     int product_id = rs.getInt("product_id");
                     String name = rs.getString("name");
@@ -77,12 +77,11 @@ public class ProductMapper {
 
     public Product getProductsByName(String name1) throws DatabaseException {
         String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Status\".status_id = \"Product\".status " +
-                "where name =?";
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where name =?";
         Product product = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
-             stm.setString(1,name1);
+            stm.setString(1,name1);
             try (ResultSet rs = stm.executeQuery()) {
 
                 if (rs.next()) {
@@ -104,12 +103,11 @@ public class ProductMapper {
 
     public List<Product> getProductsByNameList(String name1) throws DatabaseException {
         String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Status\".status_id = \"Product\".status " +
-                "where name =?";
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where name =?";
         List<Product> product = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
-             stm.setString(1,name1);
+            stm.setString(1,name1);
             try (ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {
                     int product_id = rs.getInt("product_id");
@@ -130,7 +128,7 @@ public class ProductMapper {
 
     public void updateProductStockById(int id, int inputStock) throws DatabaseException
     {
-        String sql = "UPDATE Product SET stock = ? WHERE product_id = ?";
+        String sql = "UPDATE \"Product\" SET stock = ? WHERE product_id = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
@@ -149,7 +147,7 @@ public class ProductMapper {
 
     public void updateProductStatusById(int id, String status) throws DatabaseException
     {
-        String sql = "UPDATE Product SET status = ? WHERE product_id = ?";
+        String sql = "UPDATE \"Product\" SET status = ? WHERE product_id = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql))

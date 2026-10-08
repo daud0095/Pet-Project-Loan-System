@@ -71,7 +71,7 @@ public class ProductService {
 
     public void updateProductStatus(int id, String status) throws DatabaseException {
         Product product = productMapper.getProductsById(id);
-        productMapper.updateProductStatusById(id, status);
+        productMapper.updateProductStatusById(product.getId(), status);
     }
 
     public List<Product> getUsersProduct(User user) throws DatabaseException {
