@@ -26,19 +26,19 @@ public class ProductMapper {
     }
 
     public List<Product> getProducts() throws DatabaseException {
-        String query = "SELECT product_id, name, picturePath,  description, stock, status FROM Product ";
+        String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id";
         List<Product> products = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
             try (ResultSet rs = stm.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     int product_id = rs.getInt("product_id");
                     String name = rs.getString("name");
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(rs.getString("status"));
+                    Status status1 = Status.valueOf(rs.getString("status_code"));
                     products.add(new Product(product_id, name, picturePath, description, stock, status1));
                 }
             }
@@ -50,20 +50,21 @@ public class ProductMapper {
     }
 
     public Product getProductsById(int id) throws DatabaseException {
-        String query = "SELECT product_id, name, picturePath,  description, stock, status FROM Product where product_id =?";
+        String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where product_id =?";
         Product product = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
+            stm.setInt(1,id);
             try (ResultSet rs = stm.executeQuery()) {
-                stm.setInt(1,id);
+
                 if (rs.next()) {
                     int product_id = rs.getInt("product_id");
                     String name = rs.getString("name");
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(rs.getString("status"));
+                    Status status1 = Status.valueOf(rs.getString("status_code"));
                     product = new Product(product_id, name, picturePath, description, stock, status1);
                 }
             }
@@ -75,20 +76,21 @@ public class ProductMapper {
     }
 
     public Product getProductsByName(String name1) throws DatabaseException {
-        String query = "SELECT product_id, name, picturePath,  description, stock, status FROM Product where name =?";
+        String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where name =?";
         Product product = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
+            stm.setString(1,name1);
             try (ResultSet rs = stm.executeQuery()) {
-                stm.setString(1,name1);
+
                 if (rs.next()) {
                     int product_id = rs.getInt("product_id");
                     String name = rs.getString("name");
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(rs.getString("status"));
+                    Status status1 = Status.valueOf(rs.getString("status_code"));
                     product = new Product(product_id, name, picturePath, description, stock, status1);
                 }
             }
@@ -100,20 +102,20 @@ public class ProductMapper {
     }
 
     public List<Product> getProductsByNameList(String name1) throws DatabaseException {
-        String query = "SELECT product_id, name, picturePath,  description, stock, status FROM Product where name =?";
+        String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id where name =?";
         List<Product> product = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
+            stm.setString(1,name1);
             try (ResultSet rs = stm.executeQuery()) {
-                stm.setString(1,name1);
-                if (rs.next()) {
+                while (rs.next()) {
                     int product_id = rs.getInt("product_id");
                     String name = rs.getString("name");
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(rs.getString("status"));
+                    Status status1 = Status.valueOf(rs.getString("status_code"));
                     product.add(new Product(product_id, name, picturePath, description, stock, status1));
                 }
             }
@@ -126,7 +128,7 @@ public class ProductMapper {
 
     public void updateProductStockById(int id, int inputStock) throws DatabaseException
     {
-        String sql = "UPDATE Product SET stock = ? WHERE product_id = ?";
+        String sql = "UPDATE \"Product\" SET stock = ? WHERE product_id = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
@@ -145,7 +147,7 @@ public class ProductMapper {
 
     public void updateProductStatusById(int id, String status) throws DatabaseException
     {
-        String sql = "UPDATE Product SET status = ? WHERE product_id = ?";
+        String sql = "UPDATE \"Product\" SET status = ? WHERE product_id = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql))

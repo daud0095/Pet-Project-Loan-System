@@ -68,7 +68,7 @@ public class UserMapper {
 
     public User getUserByUserName(String userName) throws DatabaseException {
         User user = null;
-        String query = "SELECT user_id, username, password,  \"isAdmin\", \"createDate\" FROM \"User\" where username = ? ";
+        String query = "SELECT user_id, username, password, \"isAdmin\", \"create_Date\" FROM \"User\" WHERE username = ?";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
             stm.setString(1, userName);
@@ -78,7 +78,7 @@ public class UserMapper {
                     String username = rs.getString("username");
                     String password = rs.getString("password");
                     boolean isAdmin = rs.getBoolean("isAdmin");
-                    LocalDate createDate = rs.getObject("create_date", LocalDate.class);
+                    LocalDate createDate = rs.getObject("create_Date", LocalDate.class);
                     user = new User(id, username, password, isAdmin);
                 }
             }
@@ -90,18 +90,18 @@ public class UserMapper {
     }
 
     public List<User> getUsers() throws DatabaseException {
-        String query = "SELECT user_id, username, password,  \"isAdmin\", \"createDate\" FROM \"User\" ";
+        String query = "SELECT user_id, username, password, \"isAdmin\", \"create_Date\" FROM \"User\"";
         List<User> users = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
             try (ResultSet rs = stm.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     int id = rs.getInt("user_id");
                     String username = rs.getString("username");
                     String password = rs.getString("password");
                     boolean isAdmin = rs.getBoolean("isAdmin");
-                    LocalDate createDate = rs.getObject("create_date", LocalDate.class);
-                     users.add(new User(id, username, password, isAdmin));
+                    LocalDate createDate = rs.getObject("create_Date", LocalDate.class);
+                    users.add(new User(id, username, password, isAdmin));
                 }
             }
         } catch (SQLException e) {
@@ -111,3 +111,4 @@ public class UserMapper {
         return users;
     }
 }
+
