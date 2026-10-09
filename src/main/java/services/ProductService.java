@@ -1,10 +1,13 @@
 package services;
 
+import dto.UserAndProductDTO;
 import entities.Product;
 import entities.User;
 import exceptions.DatabaseException;
 import persistence.ConnectionPool;
 import persistence.ProductMapper;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductService {
@@ -86,5 +89,16 @@ public class ProductService {
         return productMapper.getUsersProductsByProduct(user, product);
     }
 
+    public void insertLoan(User user, Product product, LocalDate afleveringsdato, LocalDate returnDate, String remark, int geby_id, String status) throws DatabaseException {
+        productMapper.createLoan(user, product, afleveringsdato, returnDate, remark,geby_id, status);
+    }
+
+    public List<UserAndProductDTO> getUsersLoan(User user, String status) throws DatabaseException {
+        return productMapper.getLoans(user, status);
+    }
+
+    public List<UserAndProductDTO> getAllLoans(User user) throws DatabaseException {
+        return productMapper.getAllLoans(user);
+    }
 
 }
