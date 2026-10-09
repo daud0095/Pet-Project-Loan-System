@@ -1,5 +1,6 @@
 package controllers;
 
+import dto.UserAndProductDTO;
 import entities.Product;
 import entities.Status;
 import entities.User;
@@ -140,13 +141,14 @@ public class ProductController {
         // "Aktive", "Afleveret" eller null
         String filter = ctx.queryParam("filter");
         // Alle users product
-        List<Product> products = new ArrayList<>();
-        for (Product product : productService.getUsersProduct(user)){
-            System.out.println(product);
-            if("afleveret".equals(filter)){
-                if(product.getStatus() != Status.Udlånt) products.add(product);
+        List<UserAndProductDTO> products = productService.getAllLoans(user);
+        List<UserAndProductDTO> userUdlån = productService.getUsersLoan(user, String.valueOf(Status.Udlånt));
+        List<UserAndProductDTO> userLoan = productService.getUsersLoan(user, String.valueOf(Status.Ledigt));
+        for(UserAndProductDTO product : products) {
+            if ("afleveret".equals(filter)) {
+                if (product.getStatus().equals(Status.Udlånt)) products = userUdlån;
             } else {
-                if(product.getStatus() == Status.Udlånt) products.add(product);
+                if (product.getStatus().equals(Status.Ledigt)) products = userLoan;
             }
         }
 
@@ -209,6 +211,7 @@ public class ProductController {
         user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), Status.Udlånt, afleveringsdato, LocalDate.now()));
 
         System.out.println(user.getProducts());
+        productService.insertLoan(user, product, afleveringsdato, null, null, 1, String.valueOf(Status.Udlånt));
 
         ctx.render("confirm");
 
