@@ -54,8 +54,9 @@
   <!-- Udstyr skal vises -->
   <div class="produktpage">
 
-    <p th:text="${user.username}">Useren har afleveret udstyret</p>
-    <p th:text="${product.name}"></p>
+    <p th:text="${user.username}"></p>
+    <p th:text="${product.productName}"></p>
+    <p>Useren har afleveret udstyret</p>
     <form action="/returnere" method="get">
       <input type="hidden">
       <button type="submit">Ok</button>

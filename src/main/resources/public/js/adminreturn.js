@@ -16,7 +16,6 @@ udstyr.addEventListener("change", () => {
 
 // i starten er det fast. derfor skal vi udløse denne område
 window.addEventListener("DOMContentLoaded", () => {
-    console.log(src.value);
     if (src.value.length > 0) {
         indhold();
     }
@@ -26,14 +25,14 @@ window.addEventListener("DOMContentLoaded", () => {
 async function indhold() {
 
     // først henter vi dataene her
-    const res = await fetch("/findproduct?udstyr=" + udstyr.value + "&loan=" + loan.value  );
+    const res = await fetch("/findproduct?udstyr=" + encodeURIComponent(udstyr.value) +"&loan=" + encodeURIComponent(loan.value));
     const data = await res.json();
 
     loandate.innerHTML = "Loan Dato : " + data.loanDate;
-    afleveringsdate.innerHTML = "Afleverings Dato : " + data.deliveryDate;
+    afleveringsdate.innerHTML = "Afleverings Dato : " + data.afleveringsdato;
 
     // giver os efter dag
-    const deliveryDate = new Date(data.deliveryDate);
+    const deliveryDate = new Date(data.afleveringsdato);
     const loanDate = new Date(data.loanDate);
 
     const lateDays = Math.ceil(

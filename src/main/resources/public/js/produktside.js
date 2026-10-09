@@ -100,10 +100,12 @@
 
             if (data[i].stock === 0) {
                 linjeIndholdStatus.innerHTML = "Udlånt";
+            } else {
+                linjeIndholdStatus.innerHTML = "Ledigt";
             }
 
             // Hvis status er "udlånt", ændres baggrundsfarven.
-            if (data[i].status === "Udlånt" || linjeIndholdStatus.innerHTML === "Udlånt" ) {
+            if (linjeIndholdStatus.innerHTML === "Udlånt" ) {
                 linjeIndholdStatus.style.background = "red";
             } else {
                 linjeIndholdStatus.style.background = "#DAFFD6";

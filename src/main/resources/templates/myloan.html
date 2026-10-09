@@ -74,10 +74,10 @@
           </thead>
           <tbody>
             <tr th:each="product:${products}">
-              <td th:text="${product.name}">Computer</td>
+              <td th:text="${product.productName}">Computer</td>
               <td th:text="${product.loanDate}">Lån dato</td>
-              <td th:text="${product.deliveryDate}">Afleveringsdato</td>
-              <td th:if="${filter == 'afleveret'}" th:text="${product.deliveryDate}">returndato</td>
+              <td th:text="${product.afleveringsdato}">Afleveringsdato</td>
+              <td th:if="${filter == 'afleveret'}" th:text="${product.return_date}">returndato</td>
               <td>Gebyr</td>
             </tr>
           </tbody>

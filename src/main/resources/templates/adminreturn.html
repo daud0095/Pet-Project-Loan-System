@@ -75,7 +75,7 @@
 
                 <label for="udstyr">Udstyr</label>
                 <select name="udstyr" id="udstyr">
-                    <option th:each="product : ${products}"  th:value="${product.name}"  th:text="${product.name}" >udstyr</option>
+                    <option th:each="product : ${products}"  th:value="${product.productName}"  th:text="${product.productName}" >udstyr</option>
                 </select>
 
                 <!--Det skal ikke være fast. vi vælger udstyr og så kommer deres oplysninsger her  -->

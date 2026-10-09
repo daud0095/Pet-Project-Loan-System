@@ -17,7 +17,7 @@ public class ProductMapper {
 
     ConnectionPool connectionPool;
     private static final Logger logger =
-            LoggerFactory.getLogger(UserMapper.class);
+            LoggerFactory.getLogger(ProductMapper.class);
 
     public ProductMapper(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
@@ -25,7 +25,7 @@ public class ProductMapper {
 
     public List<Product> getProducts() throws DatabaseException {
         String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Product\".status = \"Status\".status_id";
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id order by product_id";
         List<Product> products = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
@@ -143,16 +143,15 @@ public class ProductMapper {
         }
     }
 
-    public void updateProductStatusById(int id, String status) throws DatabaseException
+    public void updateProductStatusById(int id, int status) throws DatabaseException
     {
         String sql = "UPDATE \"Product\" SET status = ? WHERE product_id = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
             {
-                prepareStatement.setString(1, status);
-                prepareStatement.setInt(1, id);
-                prepareStatement.executeUpdate();
+                prepareStatement.setInt(1, status);
+                prepareStatement.setInt(2, id);
 
                 int rows = prepareStatement.executeUpdate();
                 if(rows == 0){
@@ -167,13 +166,13 @@ public class ProductMapper {
         }
     }
 
-    public List<Product> getUsersProducts(User user) throws DatabaseException {
-        String query = "SELECT * FROM \"Loan\" " +
+    public List<UserAndProductDTO> getUsersProducts(User user) throws DatabaseException {
+        String query = "SELECT product_id,name,\"picturePath\",description,stock,\"Loan\".status, loan_date, forventet_aflveveringsdato  FROM \"Loan\" " +
                 "INNER JOIN \"Product\" USING (product_id) " +
                 "WHERE user_id = ?";
-        List<Product> products = new ArrayList<>();
+        List<UserAndProductDTO> products = new ArrayList<>();
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
 
             stm.setInt(1, user.getId());
@@ -186,9 +185,10 @@ public class ProductMapper {
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
                     String status = rs.getString("status");
-                    Status status1 = Status.valueOf(status);
+                    LocalDate loanDate = rs.getDate("loan_date").toLocalDate();
+                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_aflveveringsdato").toLocalDate();
 
-                    Product product = new Product(productId, name, picturePath, description, stock, status1);
+                    UserAndProductDTO product = new UserAndProductDTO(productId, name, picturePath, description, stock, status,loanDate,forventet_afleveringsdato);
                     products.add(product);
                 }
             }
@@ -201,11 +201,11 @@ public class ProductMapper {
         return products;
     }
 
-    public List<Product> getUsersProductsByStatus(User user, String inputStatus) throws DatabaseException {
-        String query = "SELECT * FROM \"Loan\" " +
+    public List<UserAndProductDTO> getUsersProductsByStatus(User user, String inputStatus) throws DatabaseException {
+        String query = "SELECT product_id,name, \"picturePath\",description,stock,\"Loan\".status, loan_date, forventet_aflveveringsdato FROM \"Loan\" " +
                 "INNER JOIN \"Product\" USING (product_id) " +
-                "WHERE user_id = ? AND \"Product\".status = ?";
-        List<Product> products = new ArrayList<>();
+                "WHERE user_id = ? AND \"Loan\".status = ?";
+        List<UserAndProductDTO> products = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
@@ -220,10 +220,11 @@ public class ProductMapper {
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(status);
+                    String status1 = rs.getString("status");
+                    LocalDate loanDate = rs.getDate("loan_date").toLocalDate();
+                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_aflveveringsdato").toLocalDate();
 
-                    Product product = new Product(productId, name, picturePath, description, stock, status1);
+                    UserAndProductDTO product = new UserAndProductDTO(productId, name, picturePath, description, stock, status1,loanDate,forventet_afleveringsdato);
                     products.add(product);
                 }
             }
@@ -236,17 +237,17 @@ public class ProductMapper {
         return products;
     }
 
-    public Product getUsersProductsByProduct(User user, Product product) throws DatabaseException {
-        String query = "SELECT * FROM \"Loan\" " +
+    public UserAndProductDTO getUsersProductsByProduct(User user, Product inputProduct) throws DatabaseException {
+        String query = "SELECT product_id,name, \"picturePath\",description,stock,\"Loan\".status, loan_date, forventet_aflveveringsdato  FROM \"Loan\" " +
                 "INNER JOIN \"Product\" USING (product_id) " +
                 "WHERE user_id = ? AND product_id = ?";
-        Product product1 = null;
+        UserAndProductDTO product = null;
 
         try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
 
             stm.setInt(1, user.getId());
-            stm.setInt(2, product.getId());
+            stm.setInt(2, inputProduct.getId());
 
             try (ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {
@@ -255,10 +256,12 @@ public class ProductMapper {
                     String picturePath = rs.getString("picturePath");
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
-                    String status = rs.getString("status");
-                    Status status1 = Status.valueOf(status);
+                    String status1 = rs.getString("status");
+                    LocalDate loanDate = rs.getDate("loan_date").toLocalDate();
+                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_aflveveringsdato").toLocalDate();
 
-                    product1 = new Product(productId, name, picturePath, description, stock, status1);
+                    product = new UserAndProductDTO(productId, name, picturePath, description, stock, status1,loanDate,forventet_afleveringsdato);
+
                 }
             }
         }
@@ -267,7 +270,7 @@ public class ProductMapper {
             throw new DatabaseException("Kunne ikke hente brugerens produkter");
         }
 
-        return product1;
+        return product;
     }
 
     public void createLoan(User user, Product product, LocalDate afleveringsdato, LocalDate returnDate, String remark, int geby_id, String status) throws DatabaseException
@@ -315,9 +318,11 @@ public class ProductMapper {
             try (ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {
                     String name = rs.getString("name");
-                    LocalDate loanDate = rs.getDate("Loan_date").toLocalDate();
-                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_afleveringsdato").toLocalDate();
-                    LocalDate return_date = rs.getDate("return_date").toLocalDate();
+                    LocalDate loanDate = rs.getDate("loan_date").toLocalDate();
+                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_aflveveringsdato").toLocalDate();
+                    LocalDate return_date = rs.getDate("return_date") != null
+                            ? rs.getDate("return_date").toLocalDate()
+                            : null;
                     String status1 = rs.getString("status");
                     userAndProductDTOS.add(new UserAndProductDTO(name, loanDate, forventet_afleveringsdato, return_date, status1));
                 }
@@ -341,9 +346,11 @@ public class ProductMapper {
             try (ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {
                     String name = rs.getString("name");
-                    LocalDate loanDate = rs.getDate("Loan_date").toLocalDate();
-                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_afleveringsdato").toLocalDate();
-                    LocalDate return_date = rs.getDate("return_date").toLocalDate();
+                    LocalDate loanDate = rs.getDate("loan_date").toLocalDate();
+                    LocalDate forventet_afleveringsdato = rs.getDate("forventet_aflveveringsdato").toLocalDate();
+                    LocalDate return_date = rs.getDate("return_date") != null
+                            ? rs.getDate("return_date").toLocalDate()
+                            : null;
                     String status1 = rs.getString("status");
                     userAndProductDTOS.add(new UserAndProductDTO(name, loanDate, forventet_afleveringsdato, return_date, status1));
                 }
@@ -354,6 +361,32 @@ public class ProductMapper {
         }
         return userAndProductDTOS;
     }
+
+    public void updateUserProductStatus(User user, UserAndProductDTO product) throws DatabaseException
+    {
+        String sql = "update \"Loan\" set status = 'Ledigt' , return_date = ? where user_id = ? and product_id = ? and status = 'Udlånt'";
+        try (Connection connection = connectionPool.getConnection())
+        {
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
+            {
+                prepareStatement.setDate(1, Date.valueOf(LocalDate.now()));
+                prepareStatement.setInt(2, user.getId());
+                prepareStatement.setInt(3, product.getProductId());
+                prepareStatement.executeUpdate();
+
+                prepareStatement.executeUpdate();
+
+            }
+        }
+        catch (SQLException e)
+        {
+            logger.error(e.getMessage(), e);
+            throw new DatabaseException("Kunne ikke opdater status");
+        }
+    }
+
+
+
 
 
 

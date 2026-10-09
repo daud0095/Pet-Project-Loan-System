@@ -62,15 +62,12 @@ public class ProductController {
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
 
-        String product = ctx.queryParam("udstyr");
-        Product product1 = productService.findProductByName(product);
+        String udstyr = ctx.queryParam("udstyr");
+        Product product = productService.findProductByName(udstyr);
+        UserAndProductDTO product1 = productService.getUsersProduct(user, product);
 
-        user.chanceProduct(product1);
-
-        product1.setStock(product1.getStock()+1);
-        productService.updateProductStockMinus(product1.getId());
-        productService.updateProductStatus(product1.getId(), String.valueOf(Status.Ledigt));
-        product1.setStatus(Status.Ledigt);
+        productService.updateProductStockPlus(product1.getProductId());
+        productService.updateUserProductStatus(user,product1);
 
         ctx.attribute("user", user);
         ctx.attribute("product", product1);
@@ -97,10 +94,8 @@ public class ProductController {
                 ctx.attribute("user", user);
 
                 // vi finder users producter
-                List<Product> products = productService.getUsersProduct(user);
-
-                List<Product> loanProducts = productService.getUsersProductByStatus(user, String.valueOf(Status.Udlånt));
-
+                List<UserAndProductDTO> products = productService.getUsersProduct(user);
+                List<UserAndProductDTO> loanProducts = productService.getUsersProductByStatus(user, String.valueOf(Status.Udlånt));
 
                 ctx.attribute("products", loanProducts);
                 ctx.attribute("productlength", products.size());
@@ -118,16 +113,27 @@ public class ProductController {
         String udstyr = ctx.queryParam("udstyr");
         String loan = ctx.queryParam("loan");
 
+        if (udstyr == null || udstyr.isBlank()
+                || loan == null || loan.isBlank()) {
+            ctx.status(400).result("Bruger eller udstyr mangler");
+            return;
+        }
+
         User user = productService.findUser(loan);
-        Product product = productService.findProductByName(user, udstyr);
+
+        if (user == null) {
+            ctx.status(404).result("Brugeren blev ikke fundet: " + loan);
+            return;
+        }
+
+        UserAndProductDTO product = productService.findProductByName(user, udstyr);
 
         if (product == null) {
-            ctx.status(404).result("Produktet blev ikke fundet");
+            ctx.status(404).result("Produktet blev ikke fundet: " + udstyr);
             return;
         }
 
         ctx.json(product);
-
     }
 
     public void myLoan(Context ctx) throws DatabaseException {
@@ -141,21 +147,24 @@ public class ProductController {
         // "Aktive", "Afleveret" eller null
         String filter = ctx.queryParam("filter");
         // Alle users product
-        List<UserAndProductDTO> products = productService.getAllLoans(user);
-        List<UserAndProductDTO> userUdlån = productService.getUsersLoan(user, String.valueOf(Status.Udlånt));
-        List<UserAndProductDTO> userLoan = productService.getUsersLoan(user, String.valueOf(Status.Ledigt));
-        for(UserAndProductDTO product : products) {
-            if ("afleveret".equals(filter)) {
-                if (product.getStatus().equals(Status.Udlånt)) products = userUdlån;
-            } else {
-                if (product.getStatus().equals(Status.Ledigt)) products = userLoan;
-            }
+        List<UserAndProductDTO> products;
+        if ("afleveret".equals(filter)) {
+            products = productService.getUsersLoan(
+                    user, String.valueOf(Status.Ledigt)
+            );
+        } else {
+            filter = "aktive";
+            products = productService.getUsersLoan(
+                    user, String.valueOf(Status.Udlånt)
+            );
+
         }
 
         // vi sender products videre til myloan.html
         ctx.attribute("products", products);
         ctx.attribute("filter", filter);
         ctx.render("myLoan");
+
     }
 
     private void loan(Context ctx) throws DatabaseException {
@@ -172,6 +181,9 @@ public class ProductController {
         List<User> users = userService.getUsers();
         ctx.attribute("users", users);
 
+        String msg = ctx.queryParam("msg");
+        ctx.attribute("msg", msg);
+
         // denne id bliver sendt til loan.html
         // fordi senere kan vi bruge denne id for at hente udstyr
         ctx.render("loan");
@@ -184,36 +196,37 @@ public class ProductController {
         int id = Integer.parseInt(ctx.queryParam("productid"));
         Product product = productService.findProduct(id);
 
-        // vi updaterer stock
-        product.setStock(product.getStock() - 1);
-        productService.updateProductStockMinus(product.getId());
-
-        // vi updaterer status, hvis stock = 0
-        if(product.getStock() == 0){
-            product.setStatus(Status.Udlånt);
-
-        }
-
         // vi tilgår loan på hjemmeside
         String loan = ctx.queryParam("loan");
         User user = productService.findUser(loan);
-        if(product.getStock() == 0){
-           Product product1 =  productService.getUsersProduct(user, product);
-           productService.updateProductStatus(product1.getId(), String.valueOf(Status.Udlånt));
+
+        // Vi finder users udstyr
+        UserAndProductDTO userProduct = productService.getUsersProduct(user, product);
+
+        if (userProduct == null) {
+
+            // vi updaterer stock
+            productService.updateProductStockMinus(product.getId());
+
+            // vi updaterer status, hvis stock = 0
+            if (product.getStock() == 0) {
+                productService.updateProductStatus(product.getId(), 2);
+            }
+
+            // vi tilgår afleveringsdato på hjemmeside
+            LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
+
+            productService.insertLoan(user, product, afleveringsdato, null, null, 1, String.valueOf(Status.Udlånt));
+
+            ctx.render("confirm");
+
+        } else {
+            ctx.attribute("msg", "Allerede har brugeren denne udstyr...");
+            ctx.redirect("/loan?id=" + id + "&msg=Allerede%20har%20brugeren%20dette%20udstyr");
         }
 
-        // vi tilgår afleveringsdato på hjemmeside
-        LocalDate afleveringsdato = LocalDate.parse(ctx.queryParam("afleveringsdato"));
-        System.out.println(afleveringsdato);
 
 
-        // Når brugeren låner udstyr, kan brugeren have på sin egen kurv
-        user.addProduct(new Product(product.getId(), product.getPicturePath(), product.getName(), product.getDescription(), product.getStock(), Status.Udlånt, afleveringsdato, LocalDate.now()));
-
-        System.out.println(user.getProducts());
-        productService.insertLoan(user, product, afleveringsdato, null, null, 1, String.valueOf(Status.Udlånt));
-
-        ctx.render("confirm");
 
     }
 

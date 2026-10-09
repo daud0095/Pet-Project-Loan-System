@@ -51,10 +51,10 @@ public class ProductService {
         return userService.getUser(user);
     }
 
-    public Product findProductByName(User user, String name) {
+    public UserAndProductDTO findProductByName(User user, String name) throws DatabaseException {
 
-        for (Product product : user.getProducts()) {
-            if (product.getName().toUpperCase().equals(name.toUpperCase())) {
+        for (UserAndProductDTO product : productMapper.getUsersProducts(user)) {
+            if (product.getProductName().toUpperCase().equals(name.toUpperCase())) {
                 return product;
             }
         }
@@ -72,20 +72,20 @@ public class ProductService {
         productMapper.updateProductStockById(id, product.getStock()+1);
     }
 
-    public void updateProductStatus(int id, String status) throws DatabaseException {
+    public void updateProductStatus(int id, int status) throws DatabaseException {
         Product product = productMapper.getProductsById(id);
         productMapper.updateProductStatusById(product.getId(), status);
     }
 
-    public List<Product> getUsersProduct(User user) throws DatabaseException {
+    public List<UserAndProductDTO> getUsersProduct(User user) throws DatabaseException {
         return productMapper.getUsersProducts(user);
     }
 
-    public List<Product> getUsersProductByStatus(User user, String status) throws DatabaseException {
+    public List<UserAndProductDTO> getUsersProductByStatus(User user, String status) throws DatabaseException {
         return productMapper.getUsersProductsByStatus(user, status);
     }
 
-    public Product getUsersProduct(User user, Product product) throws DatabaseException {
+    public UserAndProductDTO getUsersProduct(User user, Product product) throws DatabaseException {
         return productMapper.getUsersProductsByProduct(user, product);
     }
 
@@ -100,5 +100,10 @@ public class ProductService {
     public List<UserAndProductDTO> getAllLoans(User user) throws DatabaseException {
         return productMapper.getAllLoans(user);
     }
+
+    public void updateUserProductStatus(User user, UserAndProductDTO product) throws DatabaseException {
+        productMapper.updateUserProductStatus(user,product);
+    }
+
 
 }

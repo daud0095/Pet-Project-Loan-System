@@ -17,14 +17,14 @@ class UserMapperTest {
             "jdbc:postgresql://localhost:5432/Pet_Project?currentSchema=test";
 
     private static ConnectionPool connectionPool;
-    private static BookMapper bookMapper;
-
+  /*  private static BookMapper bookMapper;
+*/
     @BeforeAll
     static void setUpClass() {
         connectionPool =
                 ConnectionPool.getInstance(USER, PASSWORD, URL, "");
 
-        bookMapper = new BookMapper(connectionPool);
+        /*bookMapper = new BookMapper(connectionPool);*/
 
         try (Connection connection = connectionPool.getConnection();
              Statement stmt = connection.createStatement()) {
