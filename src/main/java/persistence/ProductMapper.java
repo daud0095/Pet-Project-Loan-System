@@ -37,7 +37,7 @@ public class ProductMapper {
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
                     Status status1 = Status.valueOf(rs.getString("status_code"));
-                    products.add(new Product(product_id, name, picturePath, description, stock, status1));
+                    products.add(new Product(product_id,picturePath, name, description, stock, status1));
                 }
             }
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class ProductMapper {
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
                     Status status1 = Status.valueOf(rs.getString("status_code"));
-                    product = new Product(product_id, name, picturePath, description, stock, status1);
+                    product = new Product(product_id,picturePath, name , description, stock, status1);
                 }
             }
         } catch (SQLException e) {

@@ -29,7 +29,7 @@ public class UserService {
         return userMapper.login(username, password);
     }
 
-    public User createUser(String username, String password) throws DatabaseException {
+    public User createUser(String username, String password, boolean isAdmin) throws DatabaseException {
         if(username == null || username.isEmpty()){
             return null;
         }
@@ -39,7 +39,7 @@ public class UserService {
         if(getUser(username) != null){
             return null; // Username er allerede i brug
         }
-        User newUser = new User(username, password, false);
+        User newUser = new User(username, password, isAdmin);
         return userMapper.createUser(newUser);
     }
 

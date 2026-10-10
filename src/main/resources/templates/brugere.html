@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Brugere</title>
     <link rel="stylesheet" href="/css/produktside.css">
+    <link rel="stylesheet" href="/css/brugere.css">
 </head>
 <body>
 <div class="produktside">
@@ -53,7 +54,51 @@
 
     <!-- Udstyr skal vises -->
     <div class="produktpage">
+        <div class="overmenu">
+            <h2>Brugere</h2>
+            <nav>
+                <a href="/brugere">Alle Brugere</a>
+                <a href="/opretkonto">Opret Konto</a>
+            </nav>
+        </div>
 
+        <div class="subbody" th:if="${isActive}" >
+
+            <form action="/insertkonto">
+                <label for="user">User :</label>
+                <input type="text" id="user" name="user" />
+
+                <label for="password">Password :</label>
+                <input type="password" id="password" name="password" />
+
+                <label for="isAdmin">Er det Admin ?
+                    <input type="checkbox" id="isAdmin" name="isAdmin"  />
+                </label>
+
+                <p style="color: red" th:text="${msg}"></p>
+
+                <button type="submit">Opret konto</button>
+            </form>
+        </div>
+
+        <div class="subbody" th:unless="${isActive}" >
+            <table>
+                <thead>
+                <tr th:unless="${isActive}">
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>isAdmin</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${users}">
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.isAdmin}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

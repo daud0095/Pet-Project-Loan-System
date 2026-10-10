@@ -1,0 +1,151 @@
+.overmenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 0 15px;
+}
+
+.overmenu h2 {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+    color: #03045E;
+}
+
+.overmenu nav {
+    display: flex;
+    gap: 10px;
+}
+
+.overmenu nav a {
+    padding: 9px 15px;
+    border-radius: 6px;
+    background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
+    color: white;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.overmenu nav a:hover {
+    opacity: 0.9;
+}
+
+
+/* -------------------------
+   Opret bruger
+------------------------- */
+
+.subbody {
+    margin-left: 15px;
+    font-family: Inter, sans-serif;
+}
+
+.subbody form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    gap: 8px;
+}
+
+.subbody label {
+    margin-top: 8px;
+    color: #03045E;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.subbody input[type="text"],
+.subbody input[type="password"] {
+    width: 400px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #999;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+}
+
+.subbody input[type="text"]:focus,
+.subbody input[type="password"]:focus {
+    outline: none;
+    border-color: #0077B6;
+    box-shadow: 0 0 4px #0077B6;
+}
+
+.subbody input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.subbody button {
+    width: 140px;
+    height: 38px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(25deg, #03045E 0%, #0077B6 70%);
+    color: white;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.subbody button:hover {
+    opacity: 0.9;
+}
+
+
+/* -------------------------
+   Brugertabel
+------------------------- */
+
+.subbody table {
+    width: 650px;
+    border-collapse: collapse;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+}
+
+.subbody thead {
+    position: sticky;
+    top: 0;
+}
+
+.subbody th {
+    padding: 12px;
+    text-align: left;
+    background-color: #c9f4fd;
+    color: #03045E;
+    font-weight: bold;
+    border-bottom: 2px solid #0077B6;
+}
+
+.subbody td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    color: #1A1A1A;
+}
+
+.subbody tbody tr:hover {
+    background-color: #f3fbfd;
+}
+
+
+/* -------------------------
+   Tabel scroll
+------------------------- */
+
+.subbody:has(table) {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.subbody:has(table) table {
+    width: 100%;
+}

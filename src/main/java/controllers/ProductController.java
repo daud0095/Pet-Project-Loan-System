@@ -52,9 +52,14 @@ public class ProductController {
         config.routes.get("/findproduct", ctx->  getProduct(ctx));
 
 
-        config.routes.get("/brugere", ctx -> ctx.render("brugere"));
+        config.routes.get("/brugere", ctx -> allebrugere(ctx));
         config.routes.get("/administration", ctx->  administration(ctx));
         config.routes.get("/returnConfirm", ctx -> returnConfirm(ctx));
+
+
+        config.routes.get("/opretkonto", ctx -> opretkonto(ctx));
+        config.routes.get("/insertkonto", ctx -> insertkonto(ctx));
+
 
     }
 
@@ -225,6 +230,41 @@ public class ProductController {
             ctx.redirect("/loan?id=" + id + "&msg=Allerede%20har%20brugeren%20dette%20udstyr");
         }
 
+
+    }
+
+    private void allebrugere(Context ctx) throws DatabaseException {
+
+        List<User> users = userService.getUsers();
+
+        ctx.attribute("users",users);
+        ctx.attribute("isActive", false);
+        ctx.render("brugere");
+    }
+
+    private void opretkonto(Context ctx) {
+
+        String msg = ctx.queryParam("msg");
+
+        ctx.attribute("isActive", true);
+        ctx.attribute("msg", msg);
+        ctx.render("brugere");
+
+    }
+
+    private void insertkonto(Context ctx) throws DatabaseException {
+
+        String user = ctx.queryParam("user");
+        String password = ctx.queryParam("password");
+        boolean isAdmin = Boolean.parseBoolean(ctx.queryParam("isAdmin"));
+
+        User newUser = userService.createUser(user, password,isAdmin);
+
+        if (newUser == null) {
+            ctx.redirect("/opretkonto?msg=Allerede%20findes%20brugeren%20i%20databasen");
+        } else {
+            ctx.redirect("/brugere");
+        }
 
 
 

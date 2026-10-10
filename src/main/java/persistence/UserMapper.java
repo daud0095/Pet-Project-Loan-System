@@ -29,35 +29,21 @@ public class UserMapper {
         else return null;
     }
 
-//    public UserAndAuthorsDTO getUserAndAuthors(User user) throws DatabaseException {
-//        String query = "SELECT DISTINCT forfatter.forfatter_id, navn FROM udlaan JOIN bog USING (bog_id) JOIN forfatter USING (forfatter_id) " +
-//                "WHERE laaner_id = ?";
-//        List<Author> authors = new ArrayList<>();
-//        UserAndAuthorsDTO result = new UserAndAuthorsDTO(user, authors);
-//        try (Connection connection = connectionPool.getConnection();
-//             PreparedStatement stm = connection.prepareStatement(query)) {
-//            stm.setInt(1, user.getId());
-//            try (ResultSet rs = stm.executeQuery()) {
-//                while (rs.next()) {
-//                    authors.add(new Author(rs.getString("navn"), rs.getInt("forfatter_id")));
-//                }                ;
-//            }
-//
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            throw new DatabaseException("Listen af forfattere kunne ikke hentes");
-//        }
-//        return result;
-//    }
 
     public User createUser(User user) throws DatabaseException {
-        String query = "INSERT INTO \"User\" (username, password, \"isAdmin\") VALUES (?, ?, ?)";
+
+        int userLength = getUsers().size();
+
+        String query = "INSERT INTO \"User\" (user_id, username, password, \"isAdmin\",\"create_Date\") VALUES (?,?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stm.setString(1, user.getUsername());
-            stm.setString(2, user.getPassword());
-            stm.setBoolean(3, user.isAdmin());
+            stm.setInt(1, userLength + 1);
+            stm.setString(2, user.getUsername());
+            stm.setString(3, user.getPassword());
+            stm.setBoolean(4, user.isAdmin());
+            stm.setDate(5, Date.valueOf(LocalDate.now()));
             stm.executeUpdate();
+
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
