@@ -115,8 +115,13 @@
 
             // For Afleveringsdato
             const linjeIndholdAfleveringsdato = document.createElement("td");
-            linjeIndholdAfleveringsdato.textContent = data[i].deliveryDate;
+            linjeIndholdAfleveringsdato.textContent =
+                data[i].deliveryDate == null
+                    ? "-"
+                    : String(data[i].deliveryDate).replaceAll(",", "-");
             tableLine.appendChild(linjeIndholdAfleveringsdato);
+
+
 
 
             const linjeIndholdButton = document.createElement("td");

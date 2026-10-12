@@ -208,10 +208,11 @@ public class ProductController {
         // Vi finder users udstyr
         UserAndProductDTO userProduct = productService.getUsersProduct(user, product);
 
-        if (userProduct == null) {
+        if (userProduct == null || userProduct.getStatus().equals("Ledigt")) {
 
             // vi updaterer stock
             productService.updateProductStockMinus(product.getId());
+            product.setStock(product.getStock() - 1);
 
             // vi updaterer status, hvis stock = 0
             if (product.getStock() == 0) {

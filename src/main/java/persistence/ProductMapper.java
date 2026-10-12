@@ -24,8 +24,14 @@ public class ProductMapper {
     }
 
     public List<Product> getProducts() throws DatabaseException {
-        String query = "SELECT product_id, name, \"picturePath\",  description, stock, status_code FROM \"Product\" " +
-                "inner join \"Status\" on \"Product\".status = \"Status\".status_id order by product_id";
+        String query = "SELECT \"Product\".product_id, name, \"picturePath\",  description, stock, status_code,maxforventetAfleveringsDato FROM \"Product\"\n" +
+                "inner join \"Status\" on \"Product\".status = \"Status\".status_id\n" +
+                "left join (select \"Product\".product_id, max(forventet_aflveveringsdato) as maxforventetAfleveringsDato,\"Product\".status from \"Loan\"\n" +
+                "            inner join \"Product\" on \"Loan\".product_id = \"Product\".product_id\n" +
+                "            where \"Loan\".status = 'Udlånt' and \"Product\".status = 2\n" +
+                "            group by \"Product\".product_id\n" +
+                "            ) as maxDato on maxDato.product_id = \"Product\".product_id\n" +
+                "order by product_id\n";
         List<Product> products = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement stm = connection.prepareStatement(query)) {
@@ -37,7 +43,12 @@ public class ProductMapper {
                     String description = rs.getString("description");
                     int stock = rs.getInt("stock");
                     Status status1 = Status.valueOf(rs.getString("status_code"));
-                    products.add(new Product(product_id,picturePath, name, description, stock, status1));
+                    Date dato = rs.getDate("maxforventetAfleveringsDato");
+
+                    LocalDate maxforventetAfleveringsDato =
+                            dato != null ? dato.toLocalDate() : null;
+
+                    products.add(new Product(product_id,picturePath, name, description, stock, status1,maxforventetAfleveringsDato));
                 }
             }
         } catch (SQLException e) {

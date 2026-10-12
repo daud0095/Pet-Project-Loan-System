@@ -17,9 +17,12 @@ public class Main {
     public static void main(String[] args) {
         var app = Javalin.create(config ->  {
             config.staticFiles.add("/public");
+
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
+
             UserController userController = new UserController(connectionPool);
             ProductController productController = new ProductController(connectionPool);
+
             userController.setRoutes(config);
             productController.setRoutes(config);
 

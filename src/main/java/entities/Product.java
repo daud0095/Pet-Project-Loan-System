@@ -27,6 +27,16 @@ public class Product {
 
     }
 
+    public Product(int id, String picturePath, String name, String description, int stock, Status status,LocalDate deliveryDate) {
+        this.id = id;
+        this.picturePath = picturePath;
+        this.name = name;
+        this.description = description;
+        this.stock = stock;
+        this.status = status;
+        this.deliveryDate = deliveryDate;
+    }
+
     public Product(int id, String picturePath, String name, String description, int stock, Status status) {
         this.id = id;
         this.picturePath = picturePath;
@@ -35,6 +45,7 @@ public class Product {
         this.stock = stock;
         this.status = status;
     }
+
 
     public LocalDate getLoanDate(){
         return loanDate;

@@ -7,12 +7,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
-    UserService userService = new UserService(null);
 
-//    @Test
-//    void usernameIsNull() throws Exception {
-//        assertNull(userService.createUser(null, "daud@99"));
-//    }
+    @Test
+    void validatePasswordToShort() {
+        assertFalse(UserService.validatePassword("1233"));
+    }
+
+    @Test
+    void validatePasswordToLong(){
+        assertEquals(false, UserService.validatePassword("1234567891234567"));
+
+    }
 
 
 
